@@ -1,0 +1,118 @@
+name: WEBAPP-CICD-Workflow
+
+on:
+  # workflow dispatch will only work if this file is added on main branch
+  workflow_dispatch:
+  # update cron time as required and uncomment next 2 lines
+  # schedule:
+  #   - cron: '24 5 * * *' 
+  # uncomment below 2 lines if build trigger required on code push on branch CI-Pipeline-API-New 
+  # push: 
+  #   branches: ["CI-Pipeline-API-New"]
+  
+  # uncomment below 2 lines if you want to trigger the build on generating pull request on dev branch 
+  pull_request: 
+    branches: ["dev"]
+
+jobs:
+  build:
+    runs-on: [self-hosted, runner-dev-web]
+    
+    steps:
+    - name: Checkout latest code
+      uses: actions/checkout@v3
+      # cron job, PR on dev, push to branch CI-Pipeline-API-New trigger will take code only from below reference branch
+      with:
+        ref: 'dev'
+    - name: remove existing image
+      run: docker rmi -f frontend:previous
+    - name: Removing images older than 1 week
+      run: |
+          docker images --format "{{.ID}}:{{.Repository}}:{{.Tag}}:{{.CreatedSince}}" | awk -F: '{if ($NF > "1w") print $1}' | xargs -r docker rmi || true
+    - name: untag the existing latest image to previous
+      run: docker image tag frontend:latest frontend:previous || true
+    - name: build new frontend image
+      run: |
+        docker build -f sdk/devops/dockerfiles/Dockerfile.web --tag frontend:latest . 
+        
+  containerize:
+        needs: build
+        runs-on: [self-hosted, runner-dev-web]
+            
+        steps:
+            - name: remove existing container 
+              run: (docker stop frontend && docker rm frontend) || true;
+            - name: create new container
+              run: |
+               docker run --name frontend -p 80:80 -d frontend:latest
+
+  publish:
+    needs: containerize
+    runs-on: [self-hosted, runner-dev-web]
+    
+    steps:
+    - name: Publish Image to ECR
+      run: |
+        aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws configure set region ap-south-1
+        aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin ${{ secrets.ECR_URL }}
+        latest_tag=$(git log -1 --format="%h")
+        docker tag frontend:latest ${{ secrets.ECR_URL }}/frontend:${latest_tag}
+        docker push ${{ secrets.ECR_URL }}/frontend:${latest_tag}
+
+  notify:
+    needs: [build, containerize, publish]
+    runs-on: [self-hosted, runner-dev-web]
+  
+    if: ${{ always() }}
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 6
+    - name: Set Build Status
+      id: set_build_status
+      run: |
+        job_status="SUCCESS"
+        if [ "${{ needs.build.result }}" != "success" ]; then
+          job_status="Failed Job : BUILD"
+        elif [ "${{ needs.containerize.result }}" != "success" ]; then
+          job_status="Failed Job : CONTAINERIZE"
+        elif [ "${{ needs.publish.result }}" != "success" ]; then
+          job_status="Failed Job : PUBLISH"
+        fi
+
+        echo "job_status=${job_status}" >> $GITHUB_ENV
+
+        # Initialize the HTML table with borders
+        echo '<table border="1"><thead><tr><th>Commit SHA</th><th>Author</th><th>Commit Date</th><th>Commit Message</th></tr></thead><tbody>' > emailbody.html
+        
+        # Loop through the last given number of commits(number 6 is used to loop through 5th commit) and add into output html
+        git log -6 --pretty=format:'%h|%an|%ad|%s' --date=format:'%Y-%m-%d' | while IFS='|' read sha author date message
+        do
+          echo "<tr><td>$sha</td><td>$author</td><td>$date</td><td>$message</td></tr>" >> emailbody.html
+        done
+        
+        # Close the HTML table and output the entire table to a variable
+        echo '</tbody></table>' >> emailbody.html
+        # starting multiline environment variable
+        echo "COMMITS_HTML<<EOF" >> $GITHUB_ENV
+        # adding content to multiline environment variable COMMITS_HTML
+        cat emailbody.html >> $GITHUB_ENV
+        # ending writing of environment variable COMMITS_HTML
+        echo "EOF" >> $GITHUB_ENV
+  
+    - name: Send emails
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: smtp.gmail.com
+        server_port: 465
+        username: ${{ secrets.GMAIL_USERNAME }}
+        password: ${{ secrets.GMAIL_APP_KEY }}
+        subject: CMS Frontend CICD Workflow - ${{env.job_status}}
+        html_body: "<h1>Below are the last 5 commits</h1>${{ env.COMMITS_HTML }}"
+        to: "unity.team@saven.in"  # can add multiple email ids seperated by comma
+        from: SAVEN
+        secure: true
+        

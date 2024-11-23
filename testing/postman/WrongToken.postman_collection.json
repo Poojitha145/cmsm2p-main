@@ -1,0 +1,1729 @@
+{
+	"info": {
+		"_postman_id": "f4e58103-ba4d-4e29-9020-476b016fb7af",
+		"name": "WrongToken",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30062806",
+		"_collection_link": "https://crimson-station-911518.postman.co/workspace/new_apis~c14c52b6-29dd-40ca-8fbf-72f059c56b8c/collection/30062806-f4e58103-ba4d-4e29-9020-476b016fb7af?action=share&source=collection_link&creator=30062806"
+	},
+	"item": [
+		{
+			"name": "TestCases",
+			"item": [
+				{
+					"name": "Getlist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"if (responseBody.status === \"success\") {\r",
+									"    tests[\"Test Case: Status is success\"] = true;\r",
+									"} else if (responseBody.status === \"error\") {\r",
+									"    var errorMessage = responseBody.error.message,\r",
+									"        errorCode = responseBody.error.code;\r",
+									"\r",
+									"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+									"    console.log(\"Error code: \" + errorCode);\r",
+									"\r",
+									"    // Check if the error message and code match the expected values\r",
+									"    if (errorMessage === \"error verifying token : invalid signature\" && errorCode === \"0\") {\r",
+									"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+									"    } else {\r",
+									"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+									"    }\r",
+									"} \r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Cmswrongtoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Cmsurl}}/card/get/list",
+							"host": [
+								"{{Cmsurl}}"
+							],
+							"path": [
+								"card",
+								"get",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Getdetails",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"if (responseBody.status === \"success\") {\r",
+									"    tests[\"Test Case: Status is success\"] = true;\r",
+									"} else if (responseBody.status === \"error\") {\r",
+									"    var errorMessage = responseBody.error.message,\r",
+									"        errorCode = responseBody.error.code;\r",
+									"\r",
+									"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+									"    console.log(\"Error code: \" + errorCode);\r",
+									"\r",
+									"    // Check if the error message and code match the expected values\r",
+									"    if (errorMessage === \"error verifying token : invalid signature\" && errorCode === \"0\") {\r",
+									"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+									"    } else {\r",
+									"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+									"    }\r",
+									"} \r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Cmswrongtoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Cmsurl}}/card/get/details",
+							"host": [
+								"{{Cmsurl}}"
+							],
+							"path": [
+								"card",
+								"get",
+								"details"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Getlimit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"if (responseBody.status === \"success\") {\r",
+									"    tests[\"Test Case: Status is success\"] = true;\r",
+									"} else if (responseBody.status === \"error\") {\r",
+									"    var errorMessage = responseBody.error.message,\r",
+									"        errorCode = responseBody.error.code;\r",
+									"\r",
+									"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+									"    console.log(\"Error code: \" + errorCode);\r",
+									"\r",
+									"    // Check if the error message and code match the expected values\r",
+									"    if (errorMessage === \"error verifying token : invalid signature\" && errorCode === \"0\") {\r",
+									"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+									"    } else {\r",
+									"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+									"    }\r",
+									"} \r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Cmswrongtoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Cmsurl}}/card/get/limit",
+							"host": [
+								"{{Cmsurl}}"
+							],
+							"path": [
+								"card",
+								"get",
+								"limit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Getbalance",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"if (responseBody.status === \"success\") {\r",
+									"    tests[\"Test Case: Status is success\"] = true;\r",
+									"} else if (responseBody.status === \"error\") {\r",
+									"    var errorMessage = responseBody.error.message,\r",
+									"        errorCode = responseBody.error.code;\r",
+									"\r",
+									"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+									"    console.log(\"Error code: \" + errorCode);\r",
+									"\r",
+									"    // Check if the error message and code match the expected values\r",
+									"    if (errorMessage === \"error verifying token : invalid signature\" && errorCode === \"0\") {\r",
+									"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+									"    } else {\r",
+									"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+									"    }\r",
+									"} \r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Cmswrongtoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Cmsurl}}/card/get/details",
+							"host": [
+								"{{Cmsurl}}"
+							],
+							"path": [
+								"card",
+								"get",
+								"details"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Gettransactionstatus",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"if (responseBody.status === \"success\") {\r",
+									"    tests[\"Test Case: Status is success\"] = true;\r",
+									"} else if (responseBody.status === \"error\") {\r",
+									"    var errorMessage = responseBody.error.message,\r",
+									"        errorCode = responseBody.error.code;\r",
+									"\r",
+									"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+									"    console.log(\"Error code: \" + errorCode);\r",
+									"\r",
+									"    // Check if the error message and code match the expected values\r",
+									"    if (errorMessage === \"error verifying token : invalid signature\" && errorCode === \"0\") {\r",
+									"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+									"    } else {\r",
+									"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+									"    }\r",
+									"} \r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Cmswrongtoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fromDate\": \"2000-11-11\",\r\n    \"toDate\": \"2024-11-11\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Cmsurl}}/card/get/transaction/status",
+							"host": [
+								"{{Cmsurl}}"
+							],
+							"path": [
+								"card",
+								"get",
+								"transaction",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Getunbilledtransactions",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"if (responseBody.status === \"success\") {\r",
+									"    tests[\"Test Case: Status is success\"] = true;\r",
+									"} else if (responseBody.status === \"error\") {\r",
+									"    var errorMessage = responseBody.error.message,\r",
+									"        errorCode = responseBody.error.code;\r",
+									"\r",
+									"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+									"    console.log(\"Error code: \" + errorCode);\r",
+									"\r",
+									"    // Check if the error message and code match the expected values\r",
+									"    if (errorMessage === \"error verifying token : invalid signature\" && errorCode === \"0\") {\r",
+									"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+									"    } else {\r",
+									"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+									"    }\r",
+									"} \r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Cmswrongtoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "virtual-data",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Cmsurl}}/card/get/unbilled/transactions",
+							"host": [
+								"{{Cmsurl}}"
+							],
+							"path": [
+								"card",
+								"get",
+								"unbilled",
+								"transactions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Setpin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"if (responseBody.status === \"success\") {\r",
+									"    tests[\"Test Case: Status is success\"] = true;\r",
+									"} else if (responseBody.status === \"error\") {\r",
+									"    var errorMessage = responseBody.error.message,\r",
+									"        errorCode = responseBody.error.code;\r",
+									"\r",
+									"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+									"    console.log(\"Error code: \" + errorCode);\r",
+									"\r",
+									"    // Check if the error message and code match the expected values\r",
+									"    if (errorMessage === \"error verifying token : invalid signature\" && errorCode === \"0\") {\r",
+									"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+									"    } else {\r",
+									"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+									"    }\r",
+									"} \r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Cmswrongtoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"kitNo\": \"93440000352\",\r\n    \"expiryDate\": \"1027\",\r\n    \"dob\": \"22021992\",\r\n    \"pin\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Cmsurl}}/card/set/pin",
+							"host": [
+								"{{Cmsurl}}"
+							],
+							"path": [
+								"card",
+								"set",
+								"pin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Setlimit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"if (responseBody.status === \"success\") {\r",
+									"    tests[\"Test Case: Status is success\"] = true;\r",
+									"} else if (responseBody.status === \"error\") {\r",
+									"    var errorMessage = responseBody.error.message,\r",
+									"        errorCode = responseBody.error.code;\r",
+									"\r",
+									"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+									"    console.log(\"Error code: \" + errorCode);\r",
+									"\r",
+									"    // Check if the error message and code match the expected values\r",
+									"    if (errorMessage === \"error verifying token : invalid signature\" && errorCode === \"0\") {\r",
+									"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+									"    } else {\r",
+									"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+									"    }\r",
+									"} \r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Cmswrongtoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"amount\":10000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Cmsurl}}/card/set/limit",
+							"host": [
+								"{{Cmsurl}}"
+							],
+							"path": [
+								"card",
+								"set",
+								"limit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Getpreference",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"if (responseBody.status === \"success\") {\r",
+									"    tests[\"Test Case: Status is success\"] = true;\r",
+									"} else if (responseBody.status === \"error\") {\r",
+									"    var errorMessage = responseBody.error.message,\r",
+									"        errorCode = responseBody.error.code;\r",
+									"\r",
+									"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+									"    console.log(\"Error code: \" + errorCode);\r",
+									"\r",
+									"    // Check if the error message and code match the expected values\r",
+									"    if (errorMessage === \"error verifying token : invalid signature\" && errorCode === \"0\") {\r",
+									"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+									"    } else {\r",
+									"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+									"    }\r",
+									"} \r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Cmswrongtoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Cmsurl}}/card/get/preference",
+							"host": [
+								"{{Cmsurl}}"
+							],
+							"path": [
+								"card",
+								"get",
+								"preference"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Setpreference",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"if (responseBody.status === \"success\") {\r",
+									"    tests[\"Test Case: Status is success\"] = true;\r",
+									"} else if (responseBody.status === \"error\") {\r",
+									"    var errorMessage = responseBody.error.message,\r",
+									"        errorCode = responseBody.error.code;\r",
+									"\r",
+									"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+									"    console.log(\"Error code: \" + errorCode);\r",
+									"\r",
+									"    // Check if the error message and code match the expected values\r",
+									"    if (errorMessage === \"error verifying token : invalid signature\" && errorCode === \"0\") {\r",
+									"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+									"    } else {\r",
+									"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+									"    }\r",
+									"} \r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Cmswrongtoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ruleConfigurationAction\": \"ADD\",\r\n    \"merchantCategoryCodeList\": \"5401\",\r\n    \"cardPreferenceList\": [\r\n        {\r\n            \"transactionMode\": \"ATM\",\r\n            \"atmDailyWithdrawalLimit\": \"1000\",\r\n            \"atmTransactionPerDayLimit\": \"5\",\r\n            \"atmMaxTransactionAmount\": \"5000\",\r\n            \"atmMinTransactionAmount\": \"1000\"\r\n        },\r\n        {\r\n            \"transactionMode\": \"POS\",\r\n            \"posDailyWithdrawalLimit\": \"200\",\r\n            \"posTransactionPerDayLimit\": \"100\",\r\n            \"posMaxTransactionAmount\": \"2000\",\r\n            \"posMinTransactionAmount\": \"200\"\r\n        }\r\n    ],\r\n    \"countryCodeIdentifier\": \"INDIA\",\r\n    \"atmTransactionSwitch\": true,\r\n    \"ecomTransactionSwitch\": true,\r\n    \"posTransactionSwitch\": true,\r\n    \"contactlessTransactionSwitch\": true,\r\n    \"internationalTransactionSwitch\": true\r\n    \r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Cmsurl}}/card/set/preference",
+							"host": [
+								"{{Cmsurl}}"
+							],
+							"path": [
+								"card",
+								"set",
+								"preference"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Getdue",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"if (responseBody.status === \"success\") {\r",
+									"    tests[\"Test Case: Status is success\"] = true;\r",
+									"} else if (responseBody.status === \"error\") {\r",
+									"    var errorMessage = responseBody.error.message,\r",
+									"        errorCode = responseBody.error.code;\r",
+									"\r",
+									"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+									"    console.log(\"Error code: \" + errorCode);\r",
+									"\r",
+									"    // Check if the error message and code match the expected values\r",
+									"    if (errorMessage === \"error verifying token : invalid signature\" && errorCode === \"0\") {\r",
+									"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+									"    } else {\r",
+									"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+									"    }\r",
+									"} \r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Cmswrongtoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Cmsurl}}/card/get/due",
+							"host": [
+								"{{Cmsurl}}"
+							],
+							"path": [
+								"card",
+								"get",
+								"due"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Getstatement",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"if (responseBody.status === \"success\") {\r",
+									"    tests[\"Test Case: Status is success\"] = true;\r",
+									"} else if (responseBody.status === \"error\") {\r",
+									"    var errorMessage = responseBody.error.message,\r",
+									"        errorCode = responseBody.error.code;\r",
+									"\r",
+									"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+									"    console.log(\"Error code: \" + errorCode);\r",
+									"\r",
+									"    // Check if the error message and code match the expected values\r",
+									"    if (errorMessage === \"error verifying token : invalid signature\" && errorCode === \"0\") {\r",
+									"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+									"    } else {\r",
+									"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+									"    }\r",
+									"} \r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Cmswrongtoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "virtual-data",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"stmt_month\": \"122023\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Cmsurl}}/card/get/statement",
+							"host": [
+								"{{Cmsurl}}"
+							],
+							"path": [
+								"card",
+								"get",
+								"statement"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Getcvv",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"if (responseBody.status === \"success\") {\r",
+									"    tests[\"Test Case: Status is success\"] = true;\r",
+									"} else if (responseBody.status === \"error\") {\r",
+									"    var errorMessage = responseBody.error.message,\r",
+									"        errorCode = responseBody.error.code;\r",
+									"\r",
+									"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+									"    console.log(\"Error code: \" + errorCode);\r",
+									"\r",
+									"    // Check if the error message and code match the expected values\r",
+									"    if (errorMessage === \"error verifying token : invalid signature\" && errorCode === \"0\") {\r",
+									"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+									"    } else {\r",
+									"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+									"    }\r",
+									"} \r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Cmswrongtoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"kitNo\": \"93440000352\",\r\n    \"expiryDate\": \"2710\",\r\n    \"dob\": \"22021992\"\r\n} ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Cmsurl}}/card/get/cvv",
+							"host": [
+								"{{Cmsurl}}"
+							],
+							"path": [
+								"card",
+								"get",
+								"cvv"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lock",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"if (responseBody.status === \"success\") {\r",
+									"    tests[\"Test Case: Status is success\"] = true;\r",
+									"} else if (responseBody.status === \"error\") {\r",
+									"    var errorMessage = responseBody.error.message,\r",
+									"        errorCode = responseBody.error.code;\r",
+									"\r",
+									"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+									"    console.log(\"Error code: \" + errorCode);\r",
+									"\r",
+									"    // Check if the error message and code match the expected values\r",
+									"    if (errorMessage === \"error verifying token : invalid signature\" && errorCode === \"0\") {\r",
+									"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+									"    } else {\r",
+									"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+									"    }\r",
+									"} \r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Cmswrongtoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"kitNo\": \"93440000382\",\r\n    \"reason\": \"Lock Card\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Cmsurl}}/card/lock",
+							"host": [
+								"{{Cmsurl}}"
+							],
+							"path": [
+								"card",
+								"lock"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unlock",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"if (responseBody.status === \"success\") {\r",
+									"    tests[\"Test Case: Status is success\"] = true;\r",
+									"} else if (responseBody.status === \"error\") {\r",
+									"    var errorMessage = responseBody.error.message,\r",
+									"        errorCode = responseBody.error.code;\r",
+									"\r",
+									"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+									"    console.log(\"Error code: \" + errorCode);\r",
+									"\r",
+									"    // Check if the error message and code match the expected values\r",
+									"    if (errorMessage === \"error verifying token : invalid signature\" && errorCode === \"0\") {\r",
+									"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+									"    } else {\r",
+									"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+									"    }\r",
+									"} \r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Cmswrongtoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"kitNo\": \"934400003782\",\r\n    \"reason\": \"Unlock Card\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Cmsurl}}/card/unlock",
+							"host": [
+								"{{Cmsurl}}"
+							],
+							"path": [
+								"card",
+								"unlock"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Replace",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"if (responseBody.status === \"success\") {\r",
+									"    tests[\"Test Case: Status is success\"] = true;\r",
+									"} else if (responseBody.status === \"error\") {\r",
+									"    var errorMessage = responseBody.error.message,\r",
+									"        errorCode = responseBody.error.code;\r",
+									"\r",
+									"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+									"    console.log(\"Error code: \" + errorCode);\r",
+									"\r",
+									"    // Check if the error message and code match the expected values\r",
+									"    if (errorMessage === \"error verifying token : invalid signature\" && errorCode === \"0\") {\r",
+									"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+									"    } else {\r",
+									"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+									"    }\r",
+									"} \r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Cmswrongtoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"oldKitNo\": \"93440000505\",\r\n    \"newKitNo\": \"93440000503\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Cmsurl}}/card/replace",
+							"host": [
+								"{{Cmsurl}}"
+							],
+							"path": [
+								"card",
+								"replace"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Statementdate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"if (responseBody.status === \"success\") {\r",
+									"    tests[\"Test Case: Status is success\"] = true;\r",
+									"} else if (responseBody.status === \"error\") {\r",
+									"    var errorMessage = responseBody.error.message,\r",
+									"        errorCode = responseBody.error.code;\r",
+									"\r",
+									"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+									"    console.log(\"Error code: \" + errorCode);\r",
+									"\r",
+									"    // Check if the error message and code match the expected values\r",
+									"    if (errorMessage === \"error verifying token : invalid signature\" && errorCode === \"0\") {\r",
+									"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+									"    } else {\r",
+									"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+									"    }\r",
+									"} \r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Cmswrongtoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "true",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"stmtDate\": 21\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Cmsurl}}/card/update/statement/date",
+							"host": [
+								"{{Cmsurl}}"
+							],
+							"path": [
+								"card",
+								"update",
+								"statement",
+								"date"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upgradelimit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"if (responseBody.status === \"success\") {\r",
+									"    tests[\"Test Case: Status is success\"] = true;\r",
+									"} else if (responseBody.status === \"error\") {\r",
+									"    var errorMessage = responseBody.error.message,\r",
+									"        errorCode = responseBody.error.code;\r",
+									"\r",
+									"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+									"    console.log(\"Error code: \" + errorCode);\r",
+									"\r",
+									"    // Check if the error message and code match the expected values\r",
+									"    if (errorMessage === \"error verifying token : invalid signature\" && errorCode === \"0\") {\r",
+									"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+									"    } else {\r",
+									"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+									"    }\r",
+									"} \r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Cmswrongtoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"amount\": 1000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Cmsurl}}/card/upgrade/limit",
+							"host": [
+								"{{Cmsurl}}"
+							],
+							"path": [
+								"card",
+								"upgrade",
+								"limit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cardgetbillingdates",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"if (responseBody.status === \"success\") {\r",
+									"    tests[\"Test Case: Status is success\"] = true;\r",
+									"} else if (responseBody.status === \"error\") {\r",
+									"    var errorMessage = responseBody.error.message,\r",
+									"        errorCode = responseBody.error.code;\r",
+									"\r",
+									"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+									"    console.log(\"Error code: \" + errorCode);\r",
+									"\r",
+									"    // Check if the error message and code match the expected values\r",
+									"    if (errorMessage === \"error verifying token : invalid signature\" && errorCode === \"0\") {\r",
+									"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+									"    } else {\r",
+									"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+									"    }\r",
+									"} \r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Cmswrongtoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Cmsurl}}/card/get/billing_dates",
+							"host": [
+								"{{Cmsurl}}"
+							],
+							"path": [
+								"card",
+								"get",
+								"billing_dates"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Loangetlist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"if (responseBody.status === \"success\") {\r",
+									"    tests[\"Test Case: Status is success\"] = true;\r",
+									"} else if (responseBody.status === \"error\") {\r",
+									"    var errorMessage = responseBody.error.message,\r",
+									"        errorCode = responseBody.error.code;\r",
+									"\r",
+									"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+									"    console.log(\"Error code: \" + errorCode);\r",
+									"\r",
+									"    // Check if the error message and code match the expected values\r",
+									"    if (errorMessage === \"error verifying token : invalid signature\" && errorCode === \"0\") {\r",
+									"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+									"    } else {\r",
+									"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+									"    }\r",
+									"} \r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Cmswrongtoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Cmsurl}}/loan/get/list",
+							"host": [
+								"{{Cmsurl}}"
+							],
+							"path": [
+								"loan",
+								"get",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Loaneligible_emitransactions",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"if (responseBody.status === \"success\") {\r",
+									"    tests[\"Test Case: Status is success\"] = true;\r",
+									"} else if (responseBody.status === \"error\") {\r",
+									"    var errorMessage = responseBody.error.message,\r",
+									"        errorCode = responseBody.error.code;\r",
+									"\r",
+									"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+									"    console.log(\"Error code: \" + errorCode);\r",
+									"\r",
+									"    // Check if the error message and code match the expected values\r",
+									"    if (errorMessage === \"error verifying token : invalid signature\" && errorCode === \"0\") {\r",
+									"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+									"    } else {\r",
+									"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+									"    }\r",
+									"} \r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Cmswrongtoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Cmsurl}}/loan/eligible/emi/transactions",
+							"host": [
+								"{{Cmsurl}}"
+							],
+							"path": [
+								"loan",
+								"eligible",
+								"emi",
+								"transactions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Loanpreview",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"if (responseBody.status === \"success\") {\r",
+									"    tests[\"Test Case: Status is success\"] = true;\r",
+									"} else if (responseBody.status === \"error\") {\r",
+									"    var errorMessage = responseBody.error.message,\r",
+									"        errorCode = responseBody.error.code;\r",
+									"\r",
+									"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+									"    console.log(\"Error code: \" + errorCode);\r",
+									"\r",
+									"    // Check if the error message and code match the expected values\r",
+									"    if (errorMessage === \"error verifying token : invalid signature\" && errorCode === \"0\") {\r",
+									"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+									"    } else {\r",
+									"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+									"    }\r",
+									"} \r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Cmswrongtoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ruleId\": \"11\",\r\n    \"requestType\": \"SINGLE\",\r\n    \"transactions\": [\r\n        {\r\n            \"extTxnId\": \"010013312806271211500000043327400000570000\",\r\n            \"amount\": 2446\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Cmsurl}}/loan/preview",
+							"host": [
+								"{{Cmsurl}}"
+							],
+							"path": [
+								"loan",
+								"preview"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Cmsurl",
+			"value": "https://dev-cms.saven.in/",
+			"type": "string"
+		},
+		{
+			"key": "Cmstoken",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiYjU0ZGVhYmFjYjNjYjI2NWZlNGZkM2U1MGUxZWFmYTliY2Y0M2M0YmMyMWRlMjcwNjljMTczM2I3Y2NjYzJkNTZiODQ2MWJiMmNjNjJiYzU5ZjJkNzEwOWRhYzJkNWExY2VlZDlkNGM1NzQxYjM2YjFlMzY1MmZhZDc1ZTIyZGE5NjlmMTMzN2EyOGNkMjhlY2E0NjJlNGIyNWYwODk2M2JmNTU5MTM2NDMyYmZhNjM0MDQxZTNkNzI5MThlMWQ5OGU0Yzg5YmU5ZTA3NWNlMGQwNWFlOWZiZGJhYTI3MjdhMzViOTkwNDM3ZmIzYTBmYmYwMDc3NjU3YTU2YmM4ZmE4ODgzMzhhMDczOTk3ODkwYzA2YjA5ZjM3MGYzMjUwODEwYTc3YWM3NWY2NjNkMzZlZDJlNjYzMGUxY2NjMTNkMjdjZGY2MDBiM2NhYTkwZjdlNmRjMDZmZGFiMDNmZGQ1NzYyMTQwMzk2M2U2MjE5YzEwODYyMjJmYTVlOWY0YTI0YTM0ZTg1NGI5ODY3ZjdlODE2MTA1ZmYzZmM5MDgxNTMwOTU2NTI2NmU0Y2NkNTUzODk3NzMxOWQ1ZDNjZDZiMzkzZmExMjMxODY2YmZjYWNjZDkwNmFmZjkzODRkNzdhNTU3Y2M1ZGNlNzY2ZjA3NTVkMTE4ZGEzNWVkYWJhZDk0NmYyODFiNWRjNGU4NmY1NDI1N2QyOWZmMWNkNmExMWIxNTFhMDA4OTJjZTQ5N2UyZjI5NTNkNmY5ODFhNWU4ZDYzZTMyMWFjMmQxYTIwOWRlZGIwYTdiYTQwMjQyY2FlNTMwYmJlZDU0MzZiM2MxMjQyMmZjMmNlNTA5MzUyMmUxMGJlOWQ0MTFlNDdjYTkxNGM0MzBlNWI2YTUzNjg2MTkyMzEwZTJmNWZmNTRkZWU5OGFjZmI2NTA2MGVhODA0NzBkNWQxMzZmZjJkM2Y0ZWI5Y2NmNjM2Mjg5NzRjOGRmZTNlMjg4MDExNTczNWZjMTBkNDQ0MGY5ZTQ1OGRkYzM3OTlkNTY4YjI4ODExODVhM2NmOGYxZmVmMWM5MWNiMDY1YTk3NjczNDcxNGQzODgyYzlmNzkwOTc5NjBkNmViNDc2YTRiNTQ3NDRmYmY3ZmQ5YTU3ZDhhNzA2NWE0ZDhlMTYxNDQzNDJmYTI0YmMyYWQxZjBlZTY5MzM1ZWJiMmMxNWRhZDg0YjA4ZTk2Y2Q5NmZiMzllNTVlMjVmOGM1YjQwYmY1YjMzZjk4NTlmNjYxMmM0ZjgzMmUxY2RjNDc3N2I1NDI0YTljZDhjM2FkMWZlYmI4OTE0YWVjYWVlOWM3ZDUxMGQxM2Y1MzY5NjliNTc1YjVlN2Q5Ynw3ZWM5YjMxYjNjNjAzYmVhODdkNjk1NWIxZGJjMDRjYyIsImlhdCI6MTcxMTk1MDY5NSwiZXhwIjoxNzExOTUyNDk1fQ.Pt9uP6YNByBmbKBKe1nlHvacHvDNX_3vuV5CTGv2Xao",
+			"type": "string"
+		},
+		{
+			"key": "Cmswrongtoken",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiYjU0ZGVhYmFjYjNjYjI2NWZlNGZkM2U1MGUxZWFmYTliY2Y0M2M0YmMyMWRlMjcwNjljMTczM2I3Y2NjYzJkNTZiODQ2MWJiMmNjNjJiYzU5ZjJkNzEwOWRhYzJkNWExY2VlZDlkNGM1NzQxYjM2YjFlMzY1MmZhZDc1ZTIyZGE5NjlmMTMzN2EyOGNkMjhlY2E0NjJlNGIyNWYwODk2M2JmNTU5MTM2NDMyYmZhNjM0MDQxZTNkNzI5MThlMWQ5OGU0Yzg5YmU5ZTA3NWNlMGQwNWFlOWZiZGJhYTI3MjdhMzViOTkwNDM3ZmIzYTBmYmYwMDc3NjU3YTU2YmM4ZmE4ODgzMzhhMDczOTk3ODkwYzA2YjA5ZjM3MGYzMjUwODEwYTc3YWM3NWY2NjNkMzZlZDJlNjYzMGUxY2NjMTNkMjdjZGY2MDBiM2NhYTkwZjdlNmRjMDZmZGFiMDNmZGQ1NzYyMTQwMzk2M2U2MjE5YzEwODYyMjJmYTVlOWY0YTI0YTM0ZTg1NGI5ODY3ZjdlODE2MTA1ZmYzZmM5MDgxNTMwOTU2NTI2NmU0Y2NkNTUzODk3NzMxOWQ1ZDNjZDZiMzkzZmExMjMxODY2YmZjYWNjZDkwNmFmZjkzODRkNzdhNTU3Y2M1ZGNlNzY2ZjA3NTVkMTE4ZGEzNWVkYWJhZDk0NmYyODFiNWRjNGU4NmY1NDI1N2QyOWZmMWNkNmExMWIxNTFhMDA4OTJjZTQ5N2UyZjI5NTNkNmY5ODFhNWU4ZDYzZTMyMWFjMmQxYTIwOWRlZGIwYTdiYTQwMjQyY2FlNTMwYmJlZDU0MzZiM2MxMjQyMmZjMmNlNTA5MzUyMmUxMGJlOWQ0MTFlNDdjYTkxNGM0MzBlNWI2YTUzNjg2MTkyMzEwZTJmNWZmNTRkZWU5OGFjZmI2NTA2MGVhODA0NzBkNWQxMzZmZjJkM2Y0ZWI5Y2NmNjM2Mjg5NzRjOGRmZTNlMjg4MDExNTczNWZjMTBkNDQ0MGY5ZTQ1OGRkYzM3OTlkNTY4YjI4ODExODVhM2NmOGYxZmVmMWM5MWNiMDY1YTk3NjczNDcxNGQzODgyYzlmNzkwOTc5NjBkNmViNDc2YTRiNTQ3NDRmYmY3ZmQ5YTU3ZDhhNzA2NWE0ZDhlMTYxNDQzNDJmYTI0YmMyYWQxZjBlZTY5MzM1ZWJiMmMxNWRhZDg0YjA4ZTk2Y2Q5NmZiMzllNTVlMjVmOGM1YjQwYmY1YjMzZjk4NTlmNjYxMmM0ZjgzMmUxY2RjNDc3N2I1NDI0YTljZDhjM2FkMWZlYmI4OTE0YWVjYWVlOWM3ZDUxMGQxM2Y1MzY5NjliNTc1YjVlN2Q5Ynw3ZWM5YjMxYjNjNjAzYmVhODdkNjk1NWIxZGJjMDRjYyIsImlhdCI6MTcxMTk1MDY5NSwiZXhwIjoxNzExOTUyNDk1fQ.Pt9uP6YNByBmbKBKe1nlHvacHvDNX_3vuV5CTGv2Xa9",
+			"type": "string"
+		},
+		{
+			"key": "Gettransactionstatus",
+			"value": "[\"amount\",\"transactionDate\",\"externalTransactionId\",\"transactionOrigin\",\"billedStatus\",\"authorizationStatus\",\"kitNo\",\"postTransactionLimit\",\"description\",\"transactionType\"]",
+			"type": "string"
+		},
+		{
+			"key": "Getunbilledtransactions",
+			"value": "[\"amount\",\"transactionDate\",\"externalTransactionId\",\"internalTransactionId\",\"description\",\"transactionType\"]",
+			"type": "string"
+		},
+		{
+			"key": "Setpin",
+			"value": "[\"status\"]",
+			"type": "string"
+		},
+		{
+			"key": "Setlimit",
+			"value": "[\"status\"]",
+			"type": "string"
+		},
+		{
+			"key": "Getpreference",
+			"value": "[\"domestic.atm\",\"domestic.ecom\",\"domestic.pos\",\"domestic.contactless\",\"domestic.limitConfig\",\"international.atm\",\"international.ecom\",\"international.pos\",\"international.contactless\",\"international.limitConfig\"]",
+			"type": "string"
+		},
+		{
+			"key": "Getcvv",
+			"value": "[\"cvv\"]",
+			"type": "string"
+		},
+		{
+			"key": "Upgradelimit",
+			"value": "[\"status\"]",
+			"type": "string"
+		},
+		{
+			"key": "Getdetails",
+			"value": "[\"name\",\"dob\",\"kitNo\",\"cardNo\",\"partialCardNo\",\"isPinSetup\",\"cardType\",\"networkType\",\"status\",\"cardExpiry\",\"cardIssueDate\"]",
+			"type": "string"
+		},
+		{
+			"key": "Getlist",
+			"value": "[\"kitNo\",\"cardNo\",\"partialCardNo\",\"isPinSetup\",\"cardType\",\"networkType\",\"status\",\"cardExpiry\",\"cardIssueDate\"]",
+			"type": "string"
+		},
+		{
+			"key": "Getlimit",
+			"value": "[\"totalLimit\",\"availableLimit\",\"utilizedLimit\"]",
+			"type": "string"
+		},
+		{
+			"key": "Getbalance",
+			"value": "[\"productId\",\"balance\",\"lienBalance\"]",
+			"type": "string"
+		},
+		{
+			"key": "Getstatement",
+			"value": "[\"transactions\",\"statement.amount\",\"statement.totalCreditAmount\",\"statement.totalDebitAmount\",\"statement.minimumDueAmount\",\"statement.statementDate\",\"statement.startDate\",\"statement.customerDueDate\",\"statement.lastStatementBalance\",\"statement.paymentStatus\",\"statement.finance\",\"statement.finance.interest\",\"statement.finance.tax\",\"statement.finance.fees\",\"statement.purchase\",\"statement.purchase.amount\",\"statement.purchase.cash\",\"statement.emi\",\"statement.emi.debit\",\"statement.emi.principle\",\"statement.emi.interest\",\"statement.emi.otherCharges\",\"statement.emi.limitBlockedAmount\"]",
+			"type": "string"
+		},
+		{
+			"key": "Getdue",
+			"value": "[\"minDue\",\"totalDue\",\"dueDate\",\"paymentMade\",\"unbilledAmount\",\"interestAccumulated\",\"totalOutStandingAmount\",\"currentStatementDate\",\"nextStatementDate\",\"unpaidMinDue\",\"unpaidTotalDue\",\"unpaidMinDueBeforeDue\",\"unpaidTotalDueBeforeDue\",\"excessPayment\",\"postedEmi.emiTotalAmount\",\"postedEmi.principal\",\"postedEmi.interest\",\"postedEmi.otherCharges\",\"unpaidPostedEmi.emiTotalAmount\",\"unpaidPostedEmi.principal\",\"unpaidPostedEmi.interest\",\"unpaidPostedEmi.otherCharges\"]",
+			"type": "string"
+		},
+		{
+			"key": "Setpreference",
+			"value": "[\"domestic\"]",
+			"type": "string"
+		},
+		{
+			"key": "Lock/unlock",
+			"value": "\"success\"",
+			"type": "string"
+		},
+		{
+			"key": "Block",
+			"value": "true",
+			"type": "string"
+		},
+		{
+			"key": "Changebillingcycle",
+			"value": "[\"from\",\"to\",\"eligible\"]",
+			"type": "string"
+		},
+		{
+			"key": "Loaneligible_emitransactions",
+			"value": "[    \"amount\",    \"txnAmount\",    \"merchantName\",    \"extTxnId\",    \"description\",    \"transactionDate\",    \"singleEmi\",    \"groupEmi\"]",
+			"type": "string"
+		},
+		{
+			"key": "Loangetlist",
+			"value": "[\"actualLoanId\",\"loanId\",\"loanAmount\",\"interestRate\",\"tenure\",\"emiAmount\",\"brokenPeriodInterest\",\"totalPrincipal\",\"principalOverdue\",\"principalPaid\",\"principalOutstanding\",\"totalPaid\",\"totalInterest\",\"interestOutstanding\",\"interestOverdue\",\"interestWaived\",\"interestPaid\",\"totalFee\",\"feeOverdue\",\"feeOutstanding\",\"feeWaived\",\"totalFeePaid\",\"totalTax\",\"processingFee\",\"processingFeeTax\",\"numberOfDueRepayments\",\"numberOfPaidRepayments\",\"numberOfRepayments\",\"disbursedDate\",\"discountAmount\",\"totalRepayment\",\"totalExpectedRepayment\",\"totalOutstanding\",\"totalOverDue\",\"totalWaivedOff\",\"loanStatus\",\"isLoanCancelApplicable\",\"isLoanRescheduleApplicable\",\"isLoanPreClosureApplicable\",\"description\",\"category\",\"loanProductId\",\"created\",\"refundDetails\",\"currentAmortizations.installmentNo\",\"currentAmortizations.dueDate\",\"currentAmortizations.principal\",\"currentAmortizations.principalPaid\",\"currentAmortizations.principalOutstanding\",\"currentAmortizations.principalLoanBalanceOutstanding\",\"currentAmortizations.daysInPeriod\",\"currentAmortizations.interest\",\"currentAmortizations.interestPaid\",\"currentAmortizations.interestOutstanding\",\"currentAmortizations.interestWaived\",\"currentAmortizations.fee\",\"currentAmortizations.feePaid\",\"currentAmortizations.feeWaived\",\"currentAmortizations.feeOutstanding\",\"currentAmortizations.closingPrincipalAmount\",\"currentAmortizations.totalDue\",\"currentAmortizations.totalPaid\",\"currentAmortizations.totalOutstanding\",\"currentAmortizations.totalWaived\",\"currentAmortizations.tax\",\"currentAmortizations.installmentAmount\",\"currentAmortizations.complete\",\"originalAmortizations.installmentNo\",\"originalAmortizations.dueDate\",\"originalAmortizations.principal\",\"originalAmortizations.principalPaid\",\"originalAmortizations.principalOutstanding\",\"originalAmortizations.principalLoanBalanceOutstanding\",\"originalAmortizations.daysInPeriod\",\"originalAmortizations.interest\",\"originalAmortizations.interestPaid\",\"originalAmortizations.interestOutstanding\",\"originalAmortizations.interestWaived\",\"originalAmortizations.fee\",\"originalAmortizations.feePaid\",\"originalAmortizations.feeWaived\",\"originalAmortizations.feeOutstanding\",\"originalAmortizations.closingPrincipalAmount\",\"originalAmortizations.totalDue\",\"originalAmortizations.totalPaid\",\"originalAmortizations.totalOutstanding\",\"originalAmortizations.totalWaived\",\"originalAmortizations.tax\",\"originalAmortizations.installmentAmount\",\"originalAmortizations.complete\",\"transactions.extTxnId\",\"transactions.txnAmount\",\"transactions.amount\",\"transactions.description\",\"transactions.transactionDate\",\"transactions.mcc\",\"transactions.txnType\",\"transactions.subTxnType\",\"transactions.txnOrigin\",\"transactions.merchantName\"]",
+			"type": "string"
+		},
+		{
+			"key": "GettransactionstatusRequestbody",
+			"value": "[\"fromDate\": \"2000-11-11\",\"toDate\": \"2024-11-11\"]",
+			"type": "string"
+		},
+		{
+			"key": "fromDate",
+			"value": "2000-11-11",
+			"type": "string"
+		},
+		{
+			"key": "toDate",
+			"value": "2024-11-11",
+			"type": "string"
+		}
+	]
+}

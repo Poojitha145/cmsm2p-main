@@ -1,0 +1,7 @@
+export enum M2PCardStatus {
+    REPLACED = 'REPLACED',
+    LOCKED = 'LOCKED',
+    ACTIVE = 'ALLOCATED',
+    BLOCKED = 'BLOCKED',
+    HOTLISTED = 'HOTLISTED'
+}

@@ -1,0 +1,59 @@
+FROM node:latest as build
+
+WORKDIR /app
+
+# Create app directory
+RUN mkdir -p /app
+
+# Set working directory
+WORKDIR /app
+
+# Copy the entire cmsm2p directory including the common-lib folder
+COPY --chown=node sdk/lib/js/cms-client /app/sdk/lib/js/cms-client
+
+COPY --chown=node sdk/web/reactjs /app/sdk/web/reactjs
+
+# Change directory to the common-lib folder
+WORKDIR /app/sdk/lib/js/cms-client
+
+
+# Install common-lib dependencies
+RUN npm install
+
+# Build common-lib if needed (if it contains build scripts)
+RUN npm run build
+
+# Package common-lib
+RUN npm pack
+
+# # Change back to the app directory
+WORKDIR /app/sdk/web/reactjs
+
+# RUN rm package-lock.json
+
+RUN rm -rf node_modules
+
+#Install dependencies
+RUN npm install
+
+# Build the main application
+RUN npm run build
+
+FROM httpd:latest
+
+# Set the working directory to the Apache server root directory
+WORKDIR /usr/local/apache2/htdocs/
+
+# Remove existing files in the Apache root directory
+RUN rm -rf *
+
+# Copy the build output from the Node.js container to the Apache server root directory
+COPY --from=build /app/sdk/web/reactjs/build .
+
+ENV PORT=80
+
+# Expose port 80 for HTTP traffic
+EXPOSE ${PORT}
+
+# Start the Apache server
+CMD ["httpd", "-D", "FOREGROUND"]

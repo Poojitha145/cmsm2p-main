@@ -1,0 +1,5001 @@
+{
+	"info": {
+		"_postman_id": "61bc7d47-c326-4e57-9163-df4c54a0c60d",
+		"name": "NegitiveTesting",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30062806",
+		"_collection_link": "https://crimson-station-911518.postman.co/workspace/new_apis~c14c52b6-29dd-40ca-8fbf-72f059c56b8c/collection/30062806-61bc7d47-c326-4e57-9163-df4c54a0c60d?action=share&source=collection_link&creator=30062806"
+	},
+	"item": [
+		{
+			"name": "TestCases",
+			"item": [
+				{
+					"name": "Mpinverify",
+					"item": [
+						{
+							"name": "Correctvalues",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let responseJson = pm.response.json();\r",
+											"let tokenData = responseJson.data.token;\r",
+											"pm.collectionVariables.set(\"Cmstoken\", tokenData);\r",
+											"pm.environment.set(\"Cmstoken\", tokenData);\r",
+											"// console.log(\"Token changed in environment:\", tokenData);\r",
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"// Check if status code is 200\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    pm.test(\"Test Case: Status is success\", function () {\r",
+											"        pm.expect(responseBody.status).to.eql(\"success\");\r",
+											"    });\r",
+											"    pm.test(\"Response Body Matched to the schemaa\", function () {\r",
+											"        // Parse the JSON schema from the environment variable\r",
+											"       // var schema = JSON.parse(pm.environment.get(\"GetDetails\"));\r",
+											"\r",
+											"        // pm.globals.get(\"variable_key\");\r",
+											"        var schema=JSON.parse(pm.collectionVariables.get(\"Mpinverify\"));\r",
+											"        schema.forEach(function(key) {\r",
+											"            pm.expect(responseBody.data).to.have.property(key);\r",
+											"        });\r",
+											"// Object.keys(responseBody.data).forEach(function(key) {\r",
+											"        //     pm.expect(responseBody.data).to.have.property(key);\r",
+											"        // });\r",
+											"        \r",
+											"        //Additional checks for specific values if needed\r",
+											"        // pm.expect(\"validate\".responseBody.data.name).to.eql(\"Nishant Dixit\");\r",
+											"        // pm.expect(responseBody.data.status).to.eql(\"ALLOCATED\");\r",
+											"        // Add more expectations for other fields as needed...\r",
+											"    });\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    tests[\" error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"}\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"mobileNumber\": \"+919700000001\",\r\n    \"pin\": \"1234\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/user/verify/mpin",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"user",
+										"verify",
+										"mpin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Wrongmobileno",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// let responseJson = pm.response.json();\r",
+											"// let tokenData = responseJson.data.token;\r",
+											"// pm.collectionVariables.set(\"Cmstoken\", tokenData);\r",
+											"// pm.environment.set(\"Cmstoken\", tokenData);\r",
+											"// // console.log(\"Token changed in environment:\", tokenData);\r",
+											" var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"mobile number not registered\" && errorCode === \"U1002\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"mobileNumber\": \"+919700000008\",\r\n    \"pin\": \"1234\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/user/verify/mpin",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"user",
+										"verify",
+										"mpin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Wrongpin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// let responseJson = pm.response.json();\r",
+											"// let tokenData = responseJson.data.token;\r",
+											"// pm.collectionVariables.set(\"Cmstoken\", tokenData);\r",
+											"// pm.environment.set(\"Cmstoken\", tokenData);\r",
+											"// // console.log(\"Token changed in environment:\", tokenData);\r",
+											" var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"invalid credentials\" && errorCode === \"0\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"mobileNumber\": \"+919700000001\",\r\n    \"pin\": \"1238\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/user/verify/mpin",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"user",
+										"verify",
+										"mpin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Wrongdata",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// let responseJson = pm.response.json();\r",
+											"// let tokenData = responseJson.data.token;\r",
+											"// pm.collectionVariables.set(\"Cmstoken\", tokenData);\r",
+											"// pm.environment.set(\"Cmstoken\", tokenData);\r",
+											"// // console.log(\"Token changed in environment:\", tokenData);\r",
+											" var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"mobile number not registered\" && errorCode === \"U1002\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"mobileNumber\": \"+919700000008\",\r\n    \"pin\": \"1238\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/user/verify/mpin",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"user",
+										"verify",
+										"mpin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Pinlength5digits",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// let responseJson = pm.response.json();\r",
+											"// let tokenData = responseJson.data.token;\r",
+											"// pm.collectionVariables.set(\"Cmstoken\", tokenData);\r",
+											"// pm.environment.set(\"Cmstoken\", tokenData);\r",
+											"// // console.log(\"Token changed in environment:\", tokenData);\r",
+											" var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"The request body is invalid. See error object `details` property for more info.\" && errorCode === \"0\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"mobileNumber\": \"+919700000001\",\r\n    \"pin\": \"12385\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/user/verify/mpin",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"user",
+										"verify",
+										"mpin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Mobileno_empty",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// let responseJson = pm.response.json();\r",
+											"// let tokenData = responseJson.data.token;\r",
+											"// pm.collectionVariables.set(\"Cmstoken\", tokenData);\r",
+											"// pm.environment.set(\"Cmstoken\", tokenData);\r",
+											"// // console.log(\"Token changed in environment:\", tokenData);\r",
+											" var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"The request body is invalid. See error object `details` property for more info.\" && errorCode === \"0\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"mobileNumber\":\"\",\r\n    \"pin\": \"1234\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/user/verify/mpin",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"user",
+										"verify",
+										"mpin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Pin_empty",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// let responseJson = pm.response.json();\r",
+											"// let tokenData = responseJson.data.token;\r",
+											"// pm.collectionVariables.set(\"Cmstoken\", tokenData);\r",
+											"// pm.environment.set(\"Cmstoken\", tokenData);\r",
+											"// // console.log(\"Token changed in environment:\", tokenData);\r",
+											" var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"The request body is invalid. See error object `details` property for more info.\" && errorCode === \"0\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"mobileNumber\":\"+919700000001\",\r\n    \"pin\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/user/verify/mpin",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"user",
+										"verify",
+										"mpin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sendempty_data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// let responseJson = pm.response.json();\r",
+											"// let tokenData = responseJson.data.token;\r",
+											"// pm.collectionVariables.set(\"Cmstoken\", tokenData);\r",
+											"// pm.environment.set(\"Cmstoken\", tokenData);\r",
+											"// // console.log(\"Token changed in environment:\", tokenData);\r",
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"The request body is invalid. See error object `details` property for more info.\" && errorCode === \"0\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"mobileNumber\": \"\",\r\n    \"pin\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/user/verify/mpin",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"user",
+										"verify",
+										"mpin"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Gettransactionstatus",
+					"item": [
+						{
+							"name": "ChangeFD,TD(YYYYMMDD)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"The request body is invalid. See error object `details` property for more info.\" && errorCode === \"0\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"fromDate\": \"20031111\",\r\n    \"toDate\": \"20241111\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/get/transaction/status",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"get",
+										"transaction",
+										"status"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ChangeFD,TD(DD-YYYY-MM)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"The request body is invalid. See error object `details` property for more info.\" && errorCode === \"0\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"fromDate\": \"11-2000-11\",\r\n    \"toDate\": \"11-2024-11\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/get/transaction/status",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"get",
+										"transaction",
+										"status"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ChangeFD,TD(DD-MM-YYYY)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"The request body is invalid. See error object `details` property for more info.\" && errorCode === \"0\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"fromDate\": \"11-11-2000\",\r\n    \"toDate\": \"11-11-2024\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/get/transaction/status",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"get",
+										"transaction",
+										"status"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ChangeFD,TD(MM-DD-YYYY)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"The request body is invalid. See error object `details` property for more info.\" && errorCode === \"0\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"fromDate\": \"11-2000-11\",\r\n     \"toDate\":\"11-2024-11\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/get/transaction/status",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"get",
+										"transaction",
+										"status"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Send_empty value in FD",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"The request body is invalid. See error object `details` property for more info.\" && errorCode === \"0\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"fromDate\": \" \",\r\n    \"toDate\": \"2024-11-11\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/get/transaction/status",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"get",
+										"transaction",
+										"status"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Send_empty value in TD",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"The request body is invalid. See error object `details` property for more info.\" && errorCode === \"0\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"fromDate\": \"2000-11-11\",\r\n    \"toDate\": \"\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/get/transaction/status",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"get",
+										"transaction",
+										"status"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Send empty values in FD and TD",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"The request body is invalid. See error object `details` property for more info.\" && errorCode === \"0\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"fromDate\": \"\",\r\n    \"toDate\": \"\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/get/transaction/status",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"get",
+										"transaction",
+										"status"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Wrongdates",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"partner data not found\" && errorCode === \"P1101\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"fromDate\": \"2006-12-30\",\r\n    \"toDate\": \"2007-12-30\" \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/get/transaction/status",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"get",
+										"transaction",
+										"status"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Correctdata(Y-M-D)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"// Check if status code is 200\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"// Attempt to parse the request body\r",
+											"try {\r",
+											"    var requestBody = pm.request.body;\r",
+											"    if (requestBody && requestBody.hasOwnProperty(\"json\")) {\r",
+											"        requestBody = requestBody.json();\r",
+											"        pm.test(\"Request body is in JSON format\", function () {\r",
+											"            pm.expect(requestBody).to.be.ok; // Check if request body exists and is not empty\r",
+											"        });\r",
+											"    } else if (requestBody && requestBody.mode === \"raw\") {\r",
+											"        // If request body is in \"raw\" mode, parse it as JSON\r",
+											"        requestBody = JSON.parse(requestBody);\r",
+											"        pm.test(\"Request body is in JSON format\", function () {\r",
+											"            pm.expect(requestBody).to.be.ok; // Check if request body exists and is not empty\r",
+											"        });\r",
+											"    } else {\r",
+											"        pm.test(\"Request body is not in JSON format or is empty\", function () {\r",
+											"            pm.expect.fail(\"Request body is not in JSON format or is empty\");\r",
+											"        });\r",
+											"    }\r",
+											"} catch (error) {\r",
+											"    pm.test(\"Error parsing request body\", function () {\r",
+											"        pm.expect.fail(\"Error parsing request body: \" + error.message);\r",
+											"    });\r",
+											"}\r",
+											"\r",
+											"// Check if request payload matches expected\r",
+											"if (requestBody) {\r",
+											"    var expectedRequestBody = {\r",
+											"        \"fromDate\": \"2000-11-11\",\r",
+											"        \"toDate\": \"2024-11-11\"\r",
+											"    };\r",
+											"    //var expectedRequestBody = JSON.parse(pm.collectionVariables.get(\"GettransactionstatusRequestbody\")); \r",
+											"\r",
+											"    pm.test(\"Request payload matches expected\", function () {\r",
+											"        pm.expect(requestBody).to.eql(expectedRequestBody);\r",
+											"    });\r",
+											"}\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    pm.test(\"Test Case: Status is success\", function () {\r",
+											"        pm.expect(responseBody.status).to.eql(\"success\");\r",
+											"    });\r",
+											"\r",
+											"    pm.test(\"Response Body Matched to the schema\", function () {\r",
+											"        var schema = JSON.parse(pm.collectionVariables.get(\"Gettransactionstatus\"));\r",
+											"\r",
+											"        schema.forEach(function (key) {\r",
+											"            pm.expect(responseBody.data[0]).to.have.property(key);\r",
+											"        });\r",
+											"    });\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    pm.test(\"Test Case: Status is error\", function () {\r",
+											"        pm.expect.fail(\"Error message: \" + errorMessage + \", Error code: \" + errorCode);\r",
+											"    });\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"fromDate\": \"2000-11-11\",\r\n    \"toDate\": \"2024-11-11\" \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/get/transaction/status",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"get",
+										"transaction",
+										"status"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Setpin",
+					"item": [
+						{
+							"name": "Wrong_kitno",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"Kit not found\" && errorCode === \"Y3226\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"kitNo\": \"93440000564\",\r\n    \"expiryDate\": \"2710\",\r\n    \"dob\": \"22021992\",\r\n    \"pin\": \"1234\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/set/pin",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"set",
+										"pin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "set_newpin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    tests[\" error code is: \" + errorCode+\" and Test Case: Status is error and error message is: \" + errorMessage ] = false;\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"kitNo\": \"93440000352\",\r\n    \"expiryDate\": \"1027\",\r\n    \"dob\": \"22021992\",\r\n    \"pin\": \"1284\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/set/pin",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"set",
+										"pin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Wrong_ED",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"Invalid expiry date\" && errorCode === \"Y3207\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"kitNo\": \"93440000352\",\r\n    \"expiryDate\": \"1026\",\r\n    \"dob\": \"22021992\",\r\n    \"pin\": \"1234\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/set/pin",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"set",
+										"pin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Wrong_DOB",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"Invalid date of birth\" && errorCode === \"Y3206\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"kitNo\": \"93440000352\",\r\n    \"expiryDate\": \"1027\",\r\n    \"dob\": \"22021982\",\r\n    \"pin\": \"1234\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/set/pin",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"set",
+										"pin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Wrongdata",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"Invalid date of birth\" && errorCode === \"Y3206\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"kitNo\": \"93440000362\",\r\n    \"expiryDate\": \"1028\",\r\n    \"dob\": \"21031993\",\r\n    \"pin\": \"1238\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/set/pin",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"set",
+										"pin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sendempty_data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"The request body is invalid. See error object `details` property for more info.\" && errorCode === \"0\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"kitNo\": \"\",\r\n    \"expiryDate\": \"\",\r\n    \"dob\": \"\",\r\n    \"pin\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/set/pin",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"set",
+										"pin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Correctdata",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"// Check if status code is 200\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    pm.test(\"Test Case: Status is success\", function () {\r",
+											"        pm.expect(responseBody.status).to.eql(\"success\");\r",
+											"    });\r",
+											"\r",
+											"    pm.test(\"Response Body Matched to the schema\", function () {\r",
+											"        // Parse the JSON schema from the collection variable\r",
+											"        var schema = JSON.parse(pm.collectionVariables.get(\"Setpin\"));\r",
+											"\r",
+											"        // Check if the 'data' property exists\r",
+											"        pm.expect(responseBody).to.have.property('data');\r",
+											"\r",
+											"        // Check if each key in the schema exists in the 'data' object\r",
+											"        schema.forEach(function(key) {\r",
+											"            pm.expect(responseBody.data).to.have.property(key);\r",
+											"        });\r",
+											"\r",
+											"        \r",
+											"    });\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    tests[\"error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"kitNo\": \"93440000352\",\r\n    \"expiryDate\": \"1027\",\r\n    \"dob\": \"22021992\",\r\n    \"pin\": \"1234\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/set/pin",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"set",
+										"pin"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Setlimit",
+					"item": [
+						{
+							"name": "Set amount to 0",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"// Check if status code is 200\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    pm.test(\"Test Case: Status is success\", function () {\r",
+											"        pm.expect(responseBody.status).to.eql(\"success\");\r",
+											"    });\r",
+											"\r",
+											"    pm.test(\"Response Body Matched to the schema\", function () {\r",
+											"        // Parse the JSON schema from the collection variable\r",
+											"        var schema = JSON.parse(pm.collectionVariables.get(\"Setlimit\"));\r",
+											"\r",
+											"        // Check if the 'data' property exists\r",
+											"        pm.expect(responseBody).to.have.property('data');\r",
+											"\r",
+											"        // Check if each key in the schema exists in the 'data' object\r",
+											"        schema.forEach(function(key) {\r",
+											"            pm.expect(responseBody.data).to.have.property(key);\r",
+											"        });\r",
+											"\r",
+											"        \r",
+											"    });\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    tests[\"error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"amount\": 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/set/limit",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"set",
+										"limit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Amount in str",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"The request body is invalid. See error object `details` property for more info.\" && errorCode === \"0\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n \"amount\":\"10000\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/set/limit",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"set",
+										"limit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Set amount 200000",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"Limit exceeds bank set limit\" && errorCode === \"Y3238\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n \"amount\":5614\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/set/limit",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"set",
+										"limit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Without amount in reqbody",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"The request body is invalid. See error object `details` property for more info.\" && errorCode === \"0\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/set/limit",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"set",
+										"limit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Correctdata",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"// Check if status code is 200\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    pm.test(\"Test Case: Status is success\", function () {\r",
+											"        pm.expect(responseBody.status).to.eql(\"success\");\r",
+											"    });\r",
+											"\r",
+											"    pm.test(\"Response Body Matched to the schema\", function () {\r",
+											"        // Parse the JSON schema from the collection variable\r",
+											"        var schema = JSON.parse(pm.collectionVariables.get(\"Setlimit\"));\r",
+											"\r",
+											"        // Check if the 'data' property exists\r",
+											"        pm.expect(responseBody).to.have.property('data');\r",
+											"\r",
+											"        // Check if each key in the schema exists in the 'data' object\r",
+											"        schema.forEach(function(key) {\r",
+											"            pm.expect(responseBody.data).to.have.property(key);\r",
+											"        });\r",
+											"\r",
+											"        \r",
+											"    });\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    tests[\"error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n \"amount\": 1000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/set/limit",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"set",
+										"limit"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Setpreference",
+					"item": [
+						{
+							"name": "Differentpayload",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    tests[\" error code is: \" + errorCode+\" and Test Case: Status is error and error message is: \" + errorMessage ] = false;\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"ruleConfigurationAction\": \"ADD\",\r\n    \"merchantCategoryCodeList\": \"5401\",\r\n    \"cardPreferenceList\": [\r\n        {\r\n            \"transactionMode\": \"ATM\",\r\n            \"atmDailyWithdrawalLimit\": \"1000\",\r\n            \"atmTransactionPerDayLimit\": \"5\",\r\n            \"atmMaxTransactionAmount\": \"5000\",\r\n            \"atmMinTransactionAmount\": \"1000\"\r\n        },\r\n        {\r\n            \"transactionMode\": \"POS\",\r\n            \"posDailyWithdrawalLimit\": \"200\",\r\n            \"posTransactionPerDayLimit\": \"100\",\r\n            \"posMaxTransactionAmount\": \"2000\",\r\n            \"posMinTransactionAmount\": \"200\"\r\n        }\r\n    ],\r\n    \"countryCodeIdentifier\": \"INDIA\",\r\n    \"atmTransactionSwitch\": true,\r\n    \"ecomTransactionSwitch\": true,\r\n    \"posTransactionSwitch\": true,\r\n    \"contactlessTransactionSwitch\": true,\r\n    \"internationalTransactionSwitch\": true\r\n    \r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/set/preference",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"set",
+										"preference"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "in domestic give false",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    tests[\" error code is: \" + errorCode+\" and Test Case: Status is error and error message is: \" + errorMessage ] = false;\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"domestic\": {\r\n        \"ecom\": false,\r\n        \"atm\":false,\r\n        \"pos\": false,\r\n        \"contactless\": false,\r\n        \"international\":false,\r\n        \"limitConfigs\": [\r\n            {\r\n                \"txnType\": \"ATM\",\r\n                \"dailyLimitValue\": 5000,\r\n                \"dailyLimitCnt\": 21,\r\n                \"maxAmount\": 10000\r\n            },\r\n            {\r\n                \"txnType\": \"POS\",\r\n                \"dailyLimitValue\": 40002,\r\n                \"dailyLimitCnt\": 20,\r\n                \"maxAmount\": 5000\r\n            },\r\n            {\r\n                \"txnType\": \"ECOM\",\r\n                \"dailyLimitValue\": 100002,\r\n                \"dailyLimitCnt\": 20,\r\n                \"maxAmount\": 10000\r\n            }\r\n        ]\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/set/preference",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"set",
+										"preference"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Correctdata",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"// Check if status code is 200\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    pm.test(\"Test Case: Status is success\", function () {\r",
+											"        pm.expect(responseBody.status).to.eql(\"success\");\r",
+											"    });\r",
+											"\r",
+											"    pm.test(\"Response Body Matched to the schema\", function () {\r",
+											"        // Parse the JSON schema from the collection variable\r",
+											"        var schema = JSON.parse(pm.collectionVariables.get(\"Setpreference\"));\r",
+											"\r",
+											"        // Check if the 'data' property exists\r",
+											"        pm.expect(responseBody).to.have.property('data');\r",
+											"\r",
+											"        // Check if each key in the schema exists in the 'data' object\r",
+											"        schema.forEach(function(key) {\r",
+											"            pm.expect(responseBody.data).to.have.property(key);\r",
+											"        });\r",
+											"\r",
+											"        \r",
+											"    });\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    tests[\"error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"domestic\": {\r\n        \"ecom\": true,\r\n        \"atm\": true,\r\n        \"pos\": true,\r\n        \"contactless\": true,\r\n        \"international\": true,\r\n        \"limitConfigs\": [\r\n            {\r\n                \"txnType\": \"ATM\",\r\n                \"dailyLimitValue\": 5000,\r\n                \"dailyLimitCnt\": 21,\r\n                \"maxAmount\": 10000\r\n            },\r\n            {\r\n                \"txnType\": \"POS\",\r\n                \"dailyLimitValue\": 40002,\r\n                \"dailyLimitCnt\": 20,\r\n                \"maxAmount\": 5000\r\n            },\r\n            {\r\n                \"txnType\": \"ECOM\",\r\n                \"dailyLimitValue\": 100002,\r\n                \"dailyLimitCnt\": 20,\r\n                \"maxAmount\": 10000\r\n            }\r\n        ]\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/set/preference",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"set",
+										"preference"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Getstatement",
+					"item": [
+						{
+							"name": "wrong_month(MMDDYY)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"Statement not found\" && errorCode === \"S0003\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"stmt_month\": \"122024\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/get/statement",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"get",
+										"statement"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Correctmonth(DDMMYY)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"Statement not found\" && errorCode === \"S0003\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"stmt_month\": \"201223\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/get/statement",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"get",
+										"statement"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Correctmonth(YYDDMM)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"Statement not found\" && errorCode === \"S0003\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"stmt_month\": \"232012\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/get/statement",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"get",
+										"statement"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "without stmtmonth in body",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"The request body is invalid. See error object `details` property for more info.\" && errorCode === \"0\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/get/statement",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"get",
+										"statement"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Correct data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"// Check if status code is 200\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    pm.test(\"Test Case: Status is success\", function () {\r",
+											"        pm.expect(responseBody.status).to.eql(\"success\");\r",
+											"    });\r",
+											"\r",
+											"    pm.test(\"Response Body Matched to the schema\", function () {\r",
+											"        // Parse the JSON schema from the collection variable\r",
+											"        var schema = JSON.parse(pm.collectionVariables.get(\"Getstatement\"));\r",
+											"\r",
+											"        // Check if the 'data' property exists\r",
+											"        pm.expect(responseBody).to.have.property('data');\r",
+											"\r",
+											"        // Check if each key in the schema exists in the 'data' object\r",
+											"        schema.forEach(function(key) {\r",
+											"            // Check if the key has nested properties\r",
+											"            if (key.includes('.')) {\r",
+											"                var keys = key.split('.');\r",
+											"                var nestedObject = responseBody.data[keys[0]]; // Get the nested object\r",
+											"                pm.expect(nestedObject).to.have.property(keys[1]); // Check the nested property\r",
+											"            } else {\r",
+											"                pm.expect(responseBody.data).to.have.property(key);\r",
+											"            }\r",
+											"        });\r",
+											"    });\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    tests[\"error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "virtual-data",
+										"value": "true",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"stmt_month\": \"022024\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/get/statement",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"get",
+										"statement"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Getcvv",
+					"item": [
+						{
+							"name": "Kitno_empty",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"The request body is invalid. See error object `details` property for more info.\" && errorCode === \"0\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"kitNo\": \"\",\r\n    \"expiryDate\": \"2710\",\r\n    \"dob\": \"22021992\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/get/cvv",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"get",
+										"cvv"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Expirydate_empty",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"The request body is invalid. See error object `details` property for more info.\" && errorCode === \"0\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"kitNo\": \"93440000352\",\r\n    \"expiryDate\": \" \",\r\n    \"dob\": \"22021992\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/get/cvv",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"get",
+										"cvv"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Dob_empty",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"The request body is invalid. See error object `details` property for more info.\" && errorCode === \"0\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"kitNo\": \"93440000352\",\r\n    \"expiryDate\": \"2710\",\r\n    \"dob\": \" \"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/get/cvv",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"get",
+										"cvv"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Wrong_kitno",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"CVV generation error\" && errorCode === \"Y3205\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"kitNo\": \"93440000849\",\r\n    \"expiryDate\": \"2710\",\r\n    \"dob\": \"22021992\"\r\n} \r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/get/cvv",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"get",
+										"cvv"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Wrong_exprydate",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"Invalid expiry date\" && errorCode === \"Y3207\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"kitNo\": \"93440000352\",\r\n    \"expiryDate\": \"2510\",\r\n    \"dob\": \"22021992\"\r\n} ",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/get/cvv",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"get",
+										"cvv"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Wrong_dob",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"Invalid date of birth\" && errorCode === \"Y3206\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"kitNo\": \"93440000352\",\r\n    \"expiryDate\": \"2710\",\r\n    \"dob\": \"25081992\"\r\n} ",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/get/cvv",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"get",
+										"cvv"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Expirydate(MMDD)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"Invalid expiry date\" && errorCode === \"Y3207\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"kitNo\": \"93440000352\",\r\n    \"expiryDate\": \"1027\",\r\n    \"dob\": \"22021992\"\r\n} ",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/get/cvv",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"get",
+										"cvv"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Dob(MMYYYYDD)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"Invalid date of birth\" && errorCode === \"Y3206\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"kitNo\": \"93440000352\",\r\n    \"expiryDate\": \"2710\",\r\n    \"dob\": \"02199222\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/get/cvv",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"get",
+										"cvv"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Dob(YYYYMMDD)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"Invalid date of birth\" && errorCode === \"Y3206\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"kitNo\": \"93440000352\",\r\n    \"expiryDate\": \"2710\",\r\n    \"dob\": \"19920222\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/get/cvv",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"get",
+										"cvv"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Dob(YYYYMMDD)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"Invalid date of birth\" && errorCode === \"Y3206\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"kitNo\": \"93440000352\",\r\n    \"expiryDate\": \"2710\",\r\n    \"dob\": \"19920222\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/get/cvv",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"get",
+										"cvv"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Dob(DDYYYYMM)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"Invalid date of birth\" && errorCode === \"Y3206\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"kitNo\": \"93440000352\",\r\n    \"expiryDate\": \"1027\",\r\n    \"dob\": \"22199202\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/get/cvv",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"get",
+										"cvv"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Dob(MMDDYYYY)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"Invalid date of birth\" && errorCode === \"Y3206\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"kitNo\": \"93440000352\",\r\n    \"expiryDate\": \"1027\",\r\n    \"dob\": \"04102000\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/get/cvv",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"get",
+										"cvv"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Syntax_error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"Expected ',' or '}' after property value in JSON at position 61\" && errorCode === \"0\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"kitNo\": \"93440000352\",\r\n    \"expiryDate\": \"2710\"\r\n    \"dob\": \"22021992\"\r\n} ",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/get/cvv",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"get",
+										"cvv"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Wrongdata",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"Invalid date of birth\" && errorCode === \"Y3206\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"kitNo\": \"93440000358\",\r\n    \"expiryDate\": \"0723\",\r\n    \"dob\": \"22021982\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/get/cvv",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"get",
+										"cvv"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Correctdata",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"// Check if status code is 200\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    pm.test(\"Test Case: Status is success\", function () {\r",
+											"        pm.expect(responseBody.status).to.eql(\"success\");\r",
+											"    });\r",
+											"\r",
+											"    pm.test(\"Response Body Matched to the schema\", function () {\r",
+											"        // Parse the JSON schema from the collection variable\r",
+											"        var schema = JSON.parse(pm.collectionVariables.get(\"Getcvv\"));\r",
+											"\r",
+											"        // Check if the 'data' property exists\r",
+											"        pm.expect(responseBody).to.have.property('data');\r",
+											"\r",
+											"        // Check if each key in the schema exists in the 'data' object\r",
+											"        schema.forEach(function(key) {\r",
+											"            pm.expect(responseBody.data).to.have.property(key);\r",
+											"        });\r",
+											"\r",
+											"        \r",
+											"    });\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    tests[\"error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"kitNo\": \"93440000352\",\r\n    \"expiryDate\": \"2710\",\r\n    \"dob\": \"22021992\"\r\n} ",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/get/cvv",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"get",
+										"cvv"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Lock",
+					"item": [
+						{
+							"name": "Wrong_kitno",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"Invalid Data\" && errorCode === \"Y202\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"kitNo\": \"934400003782\",\r\n    \"reason\": \"lock Card\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/lock",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"lock"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Correctdata",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"// Check if status code is 200\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    pm.test(\"Test Case: Status is success\", function () {\r",
+											"        pm.expect(responseBody.status).to.eql(\"success\");\r",
+											"    });\r",
+											"\r",
+											"    pm.test(\"Response Body Matched to the schema\", function () {\r",
+											"        // Parse the JSON schema from the collection variable\r",
+											"        var schema = pm.collectionVariables.get(\"Lock/unlock\");\r",
+											"        var expectedSchema = JSON.parse(schema);\r",
+											"\r",
+											"        // Check if the 'data' property exists\r",
+											"        pm.expect(responseBody).to.have.property('data');\r",
+											"\r",
+											"        // Check if 'data' property matches the expected schema\r",
+											"        pm.expect(responseBody.data).to.eql(expectedSchema);\r",
+											"    });\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    tests[\"error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"kitNo\": \"93440000352\",\r\n    \"reason\": \" \"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/lock",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"lock"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Unlock",
+					"item": [
+						{
+							"name": "Wrong_kitno",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"Invalid Data\" && errorCode === \"Y202\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"kitNo\": \"9344000072\",\r\n    \"reason\": \"Unlock Card\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/unlock",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"unlock"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Correctdata",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"// Check if status code is 200\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    pm.test(\"Test Case: Status is success\", function () {\r",
+											"        pm.expect(responseBody.status).to.eql(\"success\");\r",
+											"    });\r",
+											"\r",
+											"    pm.test(\"Response Body Matched to the schema\", function () {\r",
+											"        // Parse the JSON schema from the collection variable\r",
+											"        var schema = pm.collectionVariables.get(\"Lock/unlock\");\r",
+											"        var expectedSchema = JSON.parse(schema);\r",
+											"\r",
+											"        // Check if the 'data' property exists\r",
+											"        pm.expect(responseBody).to.have.property('data');\r",
+											"\r",
+											"        // Check if 'data' property matches the expected schema\r",
+											"        pm.expect(responseBody.data).to.eql(expectedSchema);\r",
+											"    });\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    tests[\"error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"kitNo\": \"93440000352\",\r\n    \"reason\": \"Unlock Card\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/unlock",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"unlock"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Statementdate",
+					"item": [
+						{
+							"name": "StatementDate_4th",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"Statement date already set\" && errorCode === \"S0102\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"stmtDate\": 4\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/update/statement/date",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"update",
+										"statement",
+										"date"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "StatementDate_5th",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"Statement date must be one of 4,21\" && errorCode === \"S0101\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"stmtDate\": 5\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/update/statement/date",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"update",
+										"statement",
+										"date"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "StatementDate_21st",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"Outstanding amount is greater than zero\" && errorCode === \"S0081\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"stmtDate\": 21\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/update/statement/date",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"update",
+										"statement",
+										"date"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Upgradelimit",
+					"item": [
+						{
+							"name": "UpgradeLimit_0_amt",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    tests[\" error code is: \" + errorCode+\" and Test Case: Status is error and error message is: \" + errorMessage ] = false;\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"amount\": 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/upgrade/limit",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"upgrade",
+										"limit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UpgradeLimit_no_amt",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"The request body is invalid. See error object `details` property for more info.\" && errorCode === \"0\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/upgrade/limit",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"upgrade",
+										"limit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UpgradeLimit_str_amt",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    tests[\"Test Case: Status is success\"] = true;\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    // Check if the error message and code match the expected values\r",
+											"    if (errorMessage === \"The request body is invalid. See error object `details` property for more info.\" && errorCode === \"0\") {\r",
+											"        tests[\"Test Case: Status is error and error message is correct. Error message: \" + errorMessage + \", Error code: \" + errorCode] = true;\r",
+											"    } else {\r",
+											"        tests[\"Error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"    }\r",
+											"} \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n \"amount\":\"10000\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/upgrade/limit",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"upgrade",
+										"limit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UpgradeLimit_amt_2135",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"// Check if status code is 200\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    pm.test(\"Test Case: Status is success\", function () {\r",
+											"        pm.expect(responseBody.status).to.eql(\"success\");\r",
+											"    });\r",
+											"\r",
+											"    pm.test(\"Response Body Matched to the schema\", function () {\r",
+											"        // Parse the JSON schema from the collection variable\r",
+											"        var schema = JSON.parse(pm.collectionVariables.get(\"Upgradelimit\"));\r",
+											"\r",
+											"        // Check if the 'data' property exists\r",
+											"        pm.expect(responseBody).to.have.property('data');\r",
+											"\r",
+											"        // Check if each key in the schema exists in the 'data' object\r",
+											"        schema.forEach(function(key) {\r",
+											"            pm.expect(responseBody.data).to.have.property(key);\r",
+											"        });\r",
+											"\r",
+											"        \r",
+											"    });\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    tests[\"error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"amount\": 2564\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/upgrade/limit",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"upgrade",
+										"limit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Correctdata",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"// Check if status code is 200\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"if (responseBody.status === \"success\") {\r",
+											"    pm.test(\"Test Case: Status is success\", function () {\r",
+											"        pm.expect(responseBody.status).to.eql(\"success\");\r",
+											"    });\r",
+											"\r",
+											"    pm.test(\"Response Body Matched to the schema\", function () {\r",
+											"        // Parse the JSON schema from the collection variable\r",
+											"        var schema = JSON.parse(pm.collectionVariables.get(\"Upgradelimit\"));\r",
+											"\r",
+											"        // Check if the 'data' property exists\r",
+											"        pm.expect(responseBody).to.have.property('data');\r",
+											"\r",
+											"        // Check if each key in the schema exists in the 'data' object\r",
+											"        schema.forEach(function(key) {\r",
+											"            pm.expect(responseBody.data).to.have.property(key);\r",
+											"        });\r",
+											"\r",
+											"        \r",
+											"    });\r",
+											"} else if (responseBody.status === \"error\") {\r",
+											"    var errorMessage = responseBody.error.message,\r",
+											"        errorCode = responseBody.error.code;\r",
+											"\r",
+											"    console.log(\"Error message: \" + errorMessage); // Display error message first\r",
+											"    console.log(\"Error code: \" + errorCode);\r",
+											"\r",
+											"    tests[\"error code is: \" + errorCode + \" and Test Case: Status is error and error message is: \" + errorMessage] = false;\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Cmstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n \"amount\": 1000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Cmsurl}}/card/upgrade/limit",
+									"host": [
+										"{{Cmsurl}}"
+									],
+									"path": [
+										"card",
+										"upgrade",
+										"limit"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Cmsurl",
+			"value": "https://dev-cms.saven.in/",
+			"type": "string"
+		},
+		{
+			"key": "Cmstoken",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiYjU0ZGVhYmFjYjNjYjI2NWZlNGZkM2U1MGUxZWFmYTliY2Y0M2M0YmMyMWRlMjcwNjljMTczM2I3Y2NjYzJkNTZiODQ2MWJiMmNjNjJiYzU5ZjJkNzEwOWRhYzJkNWExY2VlZDlkNGM1NzQxYjM2YjFlMzY1MmZhZDc1ZTIyZGE5NjlmMTMzN2EyOGNkMjhlY2E0NjJlNGIyNWYwODk2M2JmNTU5MTM2NDMyYmZhNjM0MDQxZTNkNzI5MThlMWQ5OGU0Yzg5YmU5ZTA3NWNlMGQwNWFlOWZiZGJhYTI3MjdhMzViOTkwNDM3ZmIzYTBmYmYwMDc3NjU3YTU2YmM4ZmE4ODgzMzhhMDczOTk3ODkwYzA2YjA5ZjM3MGYzMjUwODEwYTc3YWM3NWY2NjNkMzZlZDJlNjYzMGUxY2NjMTNkMjdjZGY2MDBiM2NhYTkwZjdlNmRjMDZmZGFiMDNmZGQ1NzYyMTQwMzk2M2U2MjE5YzEwODYyMjJmYTVlOWY0YTI0YTM0ZTg1NGI5ODY3ZjdlODE2MTA1ZmYzZmM5MDgxNTMwOTU2NTI2NmU0Y2NkNTUzODk3NzMxOWQ1ZDNjZDZiMzkzZmExMjMxODY2YmZjYWNjZDkwNmFmZjkzODRkNzdhNTU3Y2M1ZGNlNzY2ZjA3NTVkMTE4ZGEzNWVkYWJhZDk0NmYyODFiNWRjNGU4NmY1NDI1N2QyOWZmMWNkNmExMWIxNTFhMDA4OTJjZTQ5N2UyZjI5NTNkNmY5ODFhNWU4ZDYzZTMyMWFjMmQxYTIwOWRlZGIwYTdiYTQwMjQyY2FlNTMwYmJlZDU0MzZiM2MxMjQyMmZjMmNlNTA5MzUyMmUxMGJlOWQ0MTFlNDdjYTkxNGM0MzBlNWI2YTUzNjg2MTkyMzEwZTJmNWZmNTRkZWU5OGFjZmI2NTA2MGVhODA0NzBkNWQxMzZmZjJkM2Y0ZWI5Y2NmNjM2Mjg5NzRjOGRmZTNlMjg4MDExNTczNWZjMTBkNDQ0MGY5ZTQ1OGRkYzM3OTlkNTY4YjI4ODExODVhM2NmOGYxZmVmMWM5MWNiMDY1YTk3NjczNDcxNGQzODgyYzlmNzkwOTc5NjBkNmViNDc2YTRiNTQ3NDRmYmY3ZmQ5YTU3ZDhhNzA2NWE0ZDhlMTYxNDQzNDJmYTI0YmMyYWQxZjBlZTY5MzM1ZWJiMmMxNWRhZDg0YjA4ZTk2Y2Q5NmZiMzllNTVlMjVmOGM1YjQwYmY1YjMzZjk4NTlmNjYxMmM0ZjgzMmUxY2RjNDc3N2I1NDI0YTljZDhjM2FkMWZlYmI4OTE0YWVjYWVlOWM3ZDUxMGQxM2Y1MzY5NjliNTc1YjVlN2Q5Ynw3ZWM5YjMxYjNjNjAzYmVhODdkNjk1NWIxZGJjMDRjYyIsImlhdCI6MTcxMTk1MDY5NSwiZXhwIjoxNzExOTUyNDk1fQ.Pt9uP6YNByBmbKBKe1nlHvacHvDNX_3vuV5CTGv2Xao",
+			"type": "string"
+		},
+		{
+			"key": "Cmswrongtoken",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiYjU0ZGVhYmFjYjNjYjI2NWZlNGZkM2U1MGUxZWFmYTliY2Y0M2M0YmMyMWRlMjcwNjljMTczM2I3Y2NjYzJkNTZiODQ2MWJiMmNjNjJiYzU5ZjJkNzEwOWRhYzJkNWExY2VlZDlkNGM1NzQxYjM2YjFlMzY1MmZhZDc1ZTIyZGE5NjlmMTMzN2EyOGNkMjhlY2E0NjJlNGIyNWYwODk2M2JmNTU5MTM2NDMyYmZhNjM0MDQxZTNkNzI5MThlMWQ5OGU0Yzg5YmU5ZTA3NWNlMGQwNWFlOWZiZGJhYTI3MjdhMzViOTkwNDM3ZmIzYTBmYmYwMDc3NjU3YTU2YmM4ZmE4ODgzMzhhMDczOTk3ODkwYzA2YjA5ZjM3MGYzMjUwODEwYTc3YWM3NWY2NjNkMzZlZDJlNjYzMGUxY2NjMTNkMjdjZGY2MDBiM2NhYTkwZjdlNmRjMDZmZGFiMDNmZGQ1NzYyMTQwMzk2M2U2MjE5YzEwODYyMjJmYTVlOWY0YTI0YTM0ZTg1NGI5ODY3ZjdlODE2MTA1ZmYzZmM5MDgxNTMwOTU2NTI2NmU0Y2NkNTUzODk3NzMxOWQ1ZDNjZDZiMzkzZmExMjMxODY2YmZjYWNjZDkwNmFmZjkzODRkNzdhNTU3Y2M1ZGNlNzY2ZjA3NTVkMTE4ZGEzNWVkYWJhZDk0NmYyODFiNWRjNGU4NmY1NDI1N2QyOWZmMWNkNmExMWIxNTFhMDA4OTJjZTQ5N2UyZjI5NTNkNmY5ODFhNWU4ZDYzZTMyMWFjMmQxYTIwOWRlZGIwYTdiYTQwMjQyY2FlNTMwYmJlZDU0MzZiM2MxMjQyMmZjMmNlNTA5MzUyMmUxMGJlOWQ0MTFlNDdjYTkxNGM0MzBlNWI2YTUzNjg2MTkyMzEwZTJmNWZmNTRkZWU5OGFjZmI2NTA2MGVhODA0NzBkNWQxMzZmZjJkM2Y0ZWI5Y2NmNjM2Mjg5NzRjOGRmZTNlMjg4MDExNTczNWZjMTBkNDQ0MGY5ZTQ1OGRkYzM3OTlkNTY4YjI4ODExODVhM2NmOGYxZmVmMWM5MWNiMDY1YTk3NjczNDcxNGQzODgyYzlmNzkwOTc5NjBkNmViNDc2YTRiNTQ3NDRmYmY3ZmQ5YTU3ZDhhNzA2NWE0ZDhlMTYxNDQzNDJmYTI0YmMyYWQxZjBlZTY5MzM1ZWJiMmMxNWRhZDg0YjA4ZTk2Y2Q5NmZiMzllNTVlMjVmOGM1YjQwYmY1YjMzZjk4NTlmNjYxMmM0ZjgzMmUxY2RjNDc3N2I1NDI0YTljZDhjM2FkMWZlYmI4OTE0YWVjYWVlOWM3ZDUxMGQxM2Y1MzY5NjliNTc1YjVlN2Q5Ynw3ZWM5YjMxYjNjNjAzYmVhODdkNjk1NWIxZGJjMDRjYyIsImlhdCI6MTcxMTk1MDY5NSwiZXhwIjoxNzExOTUyNDk1fQ.Pt9uP6YNByBmbKBKe1nlHvacHvDNX_3vuV5CTGv2Xao",
+			"type": "string"
+		},
+		{
+			"key": "Gettransactionstatus",
+			"value": "[\"amount\",\"transactionDate\",\"externalTransactionId\",\"transactionOrigin\",\"billedStatus\",\"authorizationStatus\",\"kitNo\",\"postTransactionLimit\",\"description\",\"transactionType\"]",
+			"type": "string"
+		},
+		{
+			"key": "Getunbilledtransactions",
+			"value": "[\"amount\",\"transactionDate\",\"externalTransactionId\",\"internalTransactionId\",\"description\",\"transactionType\"]",
+			"type": "string"
+		},
+		{
+			"key": "Setpin",
+			"value": "[\"status\"]",
+			"type": "string"
+		},
+		{
+			"key": "Setlimit",
+			"value": "[\"status\"]",
+			"type": "string"
+		},
+		{
+			"key": "Getpreference",
+			"value": "[\"domestic.atm\",\"domestic.ecom\",\"domestic.pos\",\"domestic.contactless\",\"domestic.limitConfig\",\"international.atm\",\"international.ecom\",\"international.pos\",\"international.contactless\",\"international.limitConfig\"]",
+			"type": "string"
+		},
+		{
+			"key": "Getcvv",
+			"value": "[\"cvv\"]",
+			"type": "string"
+		},
+		{
+			"key": "Upgradelimit",
+			"value": "[\"status\"]",
+			"type": "string"
+		},
+		{
+			"key": "Getdetails",
+			"value": "[\"name\",\"dob\",\"kitNo\",\"cardNo\",\"partialCardNo\",\"isPinSetup\",\"cardType\",\"networkType\",\"status\",\"cardExpiry\",\"cardIssueDate\"]",
+			"type": "string"
+		},
+		{
+			"key": "Getlist",
+			"value": "[\"kitNo\",\"cardNo\",\"partialCardNo\",\"isPinSetup\",\"cardType\",\"networkType\",\"status\",\"cardExpiry\",\"cardIssueDate\"]",
+			"type": "string"
+		},
+		{
+			"key": "Getlimit",
+			"value": "[\"totalLimit\",\"availableLimit\",\"utilizedLimit\"]",
+			"type": "string"
+		},
+		{
+			"key": "Getbalance",
+			"value": "[\"productId\",\"balance\",\"lienBalance\"]",
+			"type": "string"
+		},
+		{
+			"key": "Getstatement",
+			"value": "[\"transactions\",\"statement.amount\",\"statement.totalCreditAmount\",\"statement.totalDebitAmount\",\"statement.minimumDueAmount\",\"statement.statementDate\",\"statement.startDate\",\"statement.customerDueDate\",\"statement.lastStatementBalance\",\"statement.paymentStatus\",\"statement.finance\",\"statement.finance.interest\",\"statement.finance.tax\",\"statement.finance.fees\",\"statement.purchase\",\"statement.purchase.amount\",\"statement.purchase.cash\",\"statement.emi\",\"statement.emi.debit\",\"statement.emi.principle\",\"statement.emi.interest\",\"statement.emi.otherCharges\",\"statement.emi.limitBlockedAmount\"]",
+			"type": "string"
+		},
+		{
+			"key": "Getdue",
+			"value": "[\"minDue\",\"totalDue\",\"dueDate\",\"paymentMade\",\"unbilledAmount\",\"interestAccumulated\",\"totalOutStandingAmount\",\"currentStatementDate\",\"nextStatementDate\",\"unpaidMinDue\",\"unpaidTotalDue\",\"unpaidMinDueBeforeDue\",\"unpaidTotalDueBeforeDue\",\"excessPayment\",\"postedEmi.emiTotalAmount\",\"postedEmi.principal\",\"postedEmi.interest\",\"postedEmi.otherCharges\",\"unpaidPostedEmi.emiTotalAmount\",\"unpaidPostedEmi.principal\",\"unpaidPostedEmi.interest\",\"unpaidPostedEmi.otherCharges\"]",
+			"type": "string"
+		},
+		{
+			"key": "Setpreference",
+			"value": "[\"domestic\"]",
+			"type": "string"
+		},
+		{
+			"key": "Lock/unlock",
+			"value": "\"success\"",
+			"type": "string"
+		},
+		{
+			"key": "Block",
+			"value": "true",
+			"type": "string"
+		},
+		{
+			"key": "Changebillingcycle",
+			"value": "[\"from\",\"to\",\"eligible\"]",
+			"type": "string"
+		},
+		{
+			"key": "Loaneligible_emitransactions",
+			"value": "[    \"amount\",    \"txnAmount\",    \"merchantName\",    \"extTxnId\",    \"description\",    \"transactionDate\",    \"singleEmi\",    \"groupEmi\"]",
+			"type": "string"
+		},
+		{
+			"key": "Loangetlist",
+			"value": "[\"actualLoanId\",\"loanId\",\"loanAmount\",\"interestRate\",\"tenure\",\"emiAmount\",\"brokenPeriodInterest\",\"totalPrincipal\",\"principalOverdue\",\"principalPaid\",\"principalOutstanding\",\"totalPaid\",\"totalInterest\",\"interestOutstanding\",\"interestOverdue\",\"interestWaived\",\"interestPaid\",\"totalFee\",\"feeOverdue\",\"feeOutstanding\",\"feeWaived\",\"totalFeePaid\",\"totalTax\",\"processingFee\",\"processingFeeTax\",\"numberOfDueRepayments\",\"numberOfPaidRepayments\",\"numberOfRepayments\",\"disbursedDate\",\"discountAmount\",\"totalRepayment\",\"totalExpectedRepayment\",\"totalOutstanding\",\"totalOverDue\",\"totalWaivedOff\",\"loanStatus\",\"isLoanCancelApplicable\",\"isLoanRescheduleApplicable\",\"isLoanPreClosureApplicable\",\"description\",\"category\",\"loanProductId\",\"created\",\"refundDetails\",\"currentAmortizations.installmentNo\",\"currentAmortizations.dueDate\",\"currentAmortizations.principal\",\"currentAmortizations.principalPaid\",\"currentAmortizations.principalOutstanding\",\"currentAmortizations.principalLoanBalanceOutstanding\",\"currentAmortizations.daysInPeriod\",\"currentAmortizations.interest\",\"currentAmortizations.interestPaid\",\"currentAmortizations.interestOutstanding\",\"currentAmortizations.interestWaived\",\"currentAmortizations.fee\",\"currentAmortizations.feePaid\",\"currentAmortizations.feeWaived\",\"currentAmortizations.feeOutstanding\",\"currentAmortizations.closingPrincipalAmount\",\"currentAmortizations.totalDue\",\"currentAmortizations.totalPaid\",\"currentAmortizations.totalOutstanding\",\"currentAmortizations.totalWaived\",\"currentAmortizations.tax\",\"currentAmortizations.installmentAmount\",\"currentAmortizations.complete\",\"originalAmortizations.installmentNo\",\"originalAmortizations.dueDate\",\"originalAmortizations.principal\",\"originalAmortizations.principalPaid\",\"originalAmortizations.principalOutstanding\",\"originalAmortizations.principalLoanBalanceOutstanding\",\"originalAmortizations.daysInPeriod\",\"originalAmortizations.interest\",\"originalAmortizations.interestPaid\",\"originalAmortizations.interestOutstanding\",\"originalAmortizations.interestWaived\",\"originalAmortizations.fee\",\"originalAmortizations.feePaid\",\"originalAmortizations.feeWaived\",\"originalAmortizations.feeOutstanding\",\"originalAmortizations.closingPrincipalAmount\",\"originalAmortizations.totalDue\",\"originalAmortizations.totalPaid\",\"originalAmortizations.totalOutstanding\",\"originalAmortizations.totalWaived\",\"originalAmortizations.tax\",\"originalAmortizations.installmentAmount\",\"originalAmortizations.complete\",\"transactions.extTxnId\",\"transactions.txnAmount\",\"transactions.amount\",\"transactions.description\",\"transactions.transactionDate\",\"transactions.mcc\",\"transactions.txnType\",\"transactions.subTxnType\",\"transactions.txnOrigin\",\"transactions.merchantName\"]",
+			"type": "string"
+		},
+		{
+			"key": "GettransactionstatusRequestbody",
+			"value": "[\"fromDate\": \"2000-11-11\",\"toDate\": \"2024-11-11\"]",
+			"type": "string"
+		},
+		{
+			"key": "fromDate",
+			"value": "2000-11-11",
+			"type": "string"
+		},
+		{
+			"key": "toDate",
+			"value": "2024-11-11",
+			"type": "string"
+		},
+		{
+			"key": "Mpinverify",
+			"value": "[\"status\",\"token\"]",
+			"type": "string"
+		}
+	]
+}

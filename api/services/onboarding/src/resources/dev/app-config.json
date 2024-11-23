@@ -1,0 +1,35 @@
+{
+  "cmsDataSourceConfig": {
+    "name": "cms",
+    "connector": "mysql",
+    "url": "",
+    "host": "44.211.212.139",
+    "port": 3306,
+    "user": "root",
+    "password": "",
+    "database": "cms"
+  },
+  "fbConfig": {
+    "clientId": "",
+    "clientSecret": "",
+    "certificatePath": "",
+    "certificatePassphrase": "",
+    "ekycSecurityToken": "9fb90aa2fcd562b6937f3341e7f34984adbc108941034e3410e004a682fabf0d",
+    "ekycAction": "vihofatu",
+    "panValidationConfig": {
+      "channelId": "3743813677875200",
+      "accessId": "5018998467592584",
+      "accessCode": "4026137872876687",
+      "apiPath": "pan/validation"
+    },
+    "apiUrlConfig": {
+      "ekycUrl": "",
+      "ckycUrl": "",
+      "baseUrl": "https://devgateway.federalbank.co.in/fedbnkdev/dev/"
+    },
+    "apiPathConfig": {
+      "validatePan": "",
+      "validateNameDob": ""
+    }
+  }
+}

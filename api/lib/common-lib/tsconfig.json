@@ -1,0 +1,17 @@
+{
+    "extends": "@loopback/build/config/tsconfig.common.json",
+    "compilerOptions": {
+        "experimentalDecorators": true,
+        "module": "commonjs",
+        "target": "es2019",
+        "declaration": true,
+        "outDir": "./dist",
+        "declarationMap": true,
+        "rootDir": "./src",
+        "composite": true,
+    },
+    "references": [],
+    "include": [
+        "src/**/*"
+    ]
+}

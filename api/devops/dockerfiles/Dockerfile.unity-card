@@ -1,0 +1,48 @@
+# Use the official Node.js latest version as base
+FROM node:20-alpine
+
+USER root
+
+# Create app directory
+RUN mkdir -p /home/node/app
+RUN mkdir -p /home/ec2-user/m2p-keys
+# Set working directory
+WORKDIR /home/node/app
+
+# Copy the entire cmsm2p directory including the common-lib folder
+COPY --chown=node api/lib/common-lib /home/node/app/cmsm2p/api/lib/common-lib
+
+COPY --chown=node api/services/unity-card /home/node/app/cmsm2p/api/services/unity-card
+
+# Change directory to the common-lib folder
+WORKDIR /home/node/app/cmsm2p/api/lib/common-lib
+
+
+# Install common-lib dependencies
+RUN npm install
+
+# Build common-lib if needed (if it contains build scripts)
+RUN npm run build
+
+# Package common-lib
+RUN npm pack
+
+# # Change back to the app directory
+WORKDIR /home/node/app/cmsm2p/api/services/unity-card
+
+# RUN rm package-lock.json
+
+RUN rm -rf node_modules
+
+#Install dependencies
+RUN npm install
+
+# Build the main application
+RUN npm run build
+
+# Bind to all network interfaces so that it can be mapped to the host OS
+ENV HOST=0.0.0.0 PORT=3000
+EXPOSE ${PORT}
+
+# Command to start the application
+CMD [ "node", "." ]

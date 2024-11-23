@@ -1,0 +1,6 @@
+
+table - user
+userId - localId
+
+table - userPartner
+userPartnerIdentifier - entityId

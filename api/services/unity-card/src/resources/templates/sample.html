@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Statement</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-9z2+3VS7j6UQ/LXjZZBjv+Iv1VKGXt2S+Y/uqefjVpOT9F+4wNWCztXDWnmCzrR0ZmsYsIU5LM8WdNOUW+wXNw=="
+        crossorigin="anonymous" />
+
+
+    <style>
+        /* Additional style for header */
+
+
+        /* Additional style for footer */
+        /* .footer { */
+        /* position: fixed; */
+        /* margin-top: auto;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #e96341;
+            padding: 10px 20px;
+            z-index: 999; */
+        /* Ensure it's on top of other content */
+        /* } */
+
+        /* .footer {
+        display: none;
+    } */
+
+        @media print {
+            .header {
+                display: block;
+            }
+
+            /* Set A4 size */
+            @page {
+                size: A4;
+                margin: 0;
+            }
+
+            /* Define styles for A4 page */
+            html,
+            body {
+                width: 210mm;
+                height: 297mm;
+                margin: 0;
+                /* Updated to 0 to remove default margin */
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+
+            /* Show footer only on the first page */
+            /* .footer {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background-color: #e96341;
+                padding: 10px 20px;
+                z-index: 999;
+            }
+
+            .footer:not(:first-of-type) {
+                display: none;
+            } */
+
+            /* .footer {
+            display: none;
+        } */
+            /* Show footer only on first page */
+            /* Show footer only on the first page */
+            /* @page :first {
+            .footer {
+                display: block;
+            }
+        } */
+        }
+    </style>
+</head>
+
+<body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+    <!-- Dummy element to prevent overlap -->
+    <div style="padding-top: 130px;"></div>
+    <!-- header  -->
+    <div style="position: fixed; top: 0; left: 0; width: 100%;">
+        <div
+            style="padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; background-color: #f7f7f7;">
+            <img src="./assets/images/unity_card.png" width="50px" height="30px">
+            <img src="./assets/images/unity-title-png.png" width="150px" height="30px">
+        </div>
+        <div
+            style="background-color: #e96341; z-index: 999; padding: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px;">
+
+            <!-- <h1 style="font-size: 26px; font-weight: bold; margin: 0; color: #ffffff; padding-bottom: 20px;">Title</h1> -->
+            <div style="display: flex; ">
+                <div style="width: 50%; text-align: left; color: #f5f5f5;">
+                    <div style="display: inline-block; padding-bottom: 5px; font-size: 18px; font-weight: 600;">{{Card
+                        Holder name}}
+                    </div>
+                    <br>
+                    <span style="font-size: 12px; color: #f5f5f5; ">{{Account Number}}</span>
+                </div>
+                <div style="width: 50%; text-align: right; color: #f5f5f5;">
+                    <div style="display: inline-block; padding-bottom: 5px; font-size: 18px; font-weight: 600;">Billing
+                        Cycle</div><br>
+                    <span style="font-size: 12px; color: #f5f5f5; ">{{Date Duration}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- header end -->
+
+    <!-- Due Information & Account Summary -->
+    <div>
+        <div style="display: flex; ">
+            <!-- Due Information -->
+            <div style="width: 50%; text-align: left; padding: 25px; height: max-content;">
+                <div style="display: flex; justify-content: space-between; padding: 20px 0px 20px 0px;">
+                    <div>
+                        <div style="padding-bottom: 50px;">
+                            <div style="color: gray; padding-bottom: 7px;">Total Due</div>
+                            <div style="font-weight: bold; font-size: 22px; color: #404d6b;">{{Amount}}</div>
+                        </div>
+                        <div style="padding-bottom: 30px;">
+                            <div style="color: gray; padding-bottom: 7px;">Statement Date</div>
+                            <div style="font-weight: bold; font-size: 22px; color: #404d6b;">{{Date}}</div>
+                        </div>
+                    </div>
+                    <div style="padding-right: 20%;">
+                        <div style="padding-bottom: 50px;">
+                            <div style="color: gray; padding-bottom: 7px;">Minimum Due</div>
+                            <div style="font-weight: bold; font-size: 22px; color: #404d6b;">{{Amount}}</div>
+                        </div>
+                        <div style="padding-bottom: 30px;">
+                            <div style="color: gray; padding-bottom: 7px;">Due Date</div>
+                            <div style="font-weight: bold; font-size: 22px; color: #404d6b;">{{Date}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    style="border: 1px solid #ddd; border-radius: 10px; background-color: #f5f5f5;  margin: 20px 0px 20px 0px; padding: 20px 30px 20px 30px; display: flex; justify-content: space-between;">
+                    <div>
+                        <div style="color: gray; padding-bottom: 7px;">Available limit</div>
+                        <div style="font-weight: 700; color: gray; font-size: 18px; color: #404d6b;">{{Amount}}</div>
+                    </div>
+                    <div>
+                        <div style="color: gray; padding-bottom: 7px;">Total limit</div>
+                        <div style="font-weight: 700; color: gray; font-size: 18px; color: #404d6b;">{{Amount}}</div>
+                    </div>
+                    <div>
+                        <div style="color: gray; padding-bottom: 7px;">Cash withdrawal limit</div>
+                        <div style="font-weight: 700; color: gray; font-size: 18px; color: #404d6b;">{{Amount}}</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Account Summary -->
+            <div
+                style="width: 50%; text-align: left; color: grey; border: 1px solid #ddd; background-color: #f5f5f5;  border-radius: 10px; margin-top: 25px; margin-right: 25px;  padding: 25px; height: max-content;">
+                <h4 style="text-align: center; margin: 0px 0px 10px 0px;">Account Summary</h4>
+                <div style="display: flex; justify-content: space-between;">
+                    <p style="margin: 10px 0px;">Previous Balance</p>
+                    <p style="text-align: right; margin: 10px 0px; color: #404d6b;">{{Amount}}</p>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <p style="margin: 10px 0px;">Transactions</p>
+                    <p style="text-align: right; margin: 10px 0px; color: #404d6b;">{{+Amount}}</p>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <p style="margin: 10px 0px;">Cash Withdrawals</p>
+                    <p style="text-align: right; margin: 10px 0px; color: #404d6b;">{{+Amount}}</p>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <p style="margin: 10px 0px;">Fees and Interest</p>
+                    <p style="text-align: right; margin: 10px 0px; color: #404d6b;">{{+Amount}}</p>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <p style="margin: 10px 0px;">Payments and Refunds</p>
+                    <p style="text-align: right; margin: 10px 0px; color: #404d6b;">{{-Amount}}</p>
+                </div>
+
+                <hr style="border-top: 1px solid #ddd; margin: 10px 0;">
+                <div style="display: flex; justify-content: space-between; color: #404d6b; ">
+                    <p style="margin: 10px 0px; font-weight: 600;">New Balance</p>
+                    <p style="text-align: right; margin: 10px 0px; font-size: 18px; font-weight: 800;">{{Amount}}</p>
+                </div>
+            </div>
+        </div>
+        <!-- Due Information & Account Summary End -->
+
+        <!-- payment-info -->
+        <div
+            style="display: flex; justify-content: space-between; border-radius: 10px; background-color: #f5f5f5; border: 1px solid #e96341; padding: 25px; margin: 25px; margin-top: 0px;">
+            <div style="width: 50%;">
+                <p style="margin: 0px; color: #e96341; font-weight: 600;">Minimum amount due</p>
+                <p style="padding-right: 35px; color: grey;">If the minimum amount due or part amount less than the
+                    total
+                    amount due is paid, interest charges are applicable (including
+                    fresh purchases, if any) on an average daily reducing balancing
+                    method
+                </p>
+
+            </div>
+            <div style="width: 50%;">
+                <p style="margin: 0px; color: #e96341; padding-left: 15px; font-weight: 600;">Late payment</p>
+                <p style="padding-left: 15px; color: grey;">Late Payment charges will be applicable if Minimum
+                    Amount Due is not paid by the payment due date. Late
+                    payment will also result in reporting to the Credit Bureau</p>
+            </div>
+        </div>
+
+        <!-- payment-info end-->
+
+        <!-- Footer -->
+        <div
+            style="display: flex; justify-content: space-between; color: #fff; padding-left: 25px;  font-size: 14px; margin-top: auto;  background-color: #e96341; padding: 10px; padding-left: 25px; padding-right: 25px; ">
+
+            <div>
+                <div>GSTIN: <span>{{GSTIN}} </span></div>
+                <div> For queries log on to the Saven Unity mobile app and chat with us on
+                    support.</div>
+            </div>
+
+            <div>
+                <div>
+                    <div>HSN Code : <span>{{HSN Code}} </span></div>
+                    <div> Invoice no : <span>{{Invoice no}}</span></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- <div class="page-break-after: always;"></div> -->
+
+    <!-- <div style="page-break-after: always; visibility: hidden;"></div> -->
+    <!-- Dummy element to prevent overlap -->
+    <!-- <div style="padding-top: 145px;"></div> -->
+
+    <!-- Your Transactions Table -->
+    <div
+        style="margin: 25px; border-radius: 10px; background-color: #f5f5f5; border: 1px solid #ddd; padding: 25px; padding-top: 0px;">
+        <h4 style=" margin-bottom: 20px;">Your Transactions</h4>
+        <!-- Transaction Records Table -->
+        <table style="width: 100%; border-collapse: collapse;">
+            <!-- Table Headings -->
+            <tr style="background-color: #404d6b; color: #ffffff;">
+                <th style="padding: 10px; border: none; text-align: left;">Date & Time</th>
+                <th style="padding: 10px; border: none; text-align: left;">Transaction Details</th>
+                <th style="padding: 10px; border: none;">Amount</th>
+            </tr>
+            <!-- Transaction Records -->
+            <!-- Transaction Record 1 -->
+                <tr style="background-color: #fff;">
+                    <td style="padding: 10px; border: none;">
+                        <div>2024-02-14</div>
+                        <div style="font-size: 12px; color: grey; padding-top: 7px;">11:52:13</div>
+                    </td>
+                    <td style="padding: 10px; border: none;">ABCRESTAURANTCOIMBATORE               IN</td>
+                    <td style="padding: 10px; border: none; text-align: center; font-weight: bold; color: #404d6b;">
+                        2691
+                    </td>
+                </tr>
+                <tr style="background-color: #fff;">
+                    <td style="padding: 10px; border: none;">
+                        <div>2024-02-14</div>
+                        <div style="font-size: 12px; color: grey; padding-top: 7px;">11:52:14</div>
+                    </td>
+                    <td style="padding: 10px; border: none;"></td>
+                    <td style="padding: 10px; border: none; text-align: center; font-weight: bold; color: #404d6b;">
+                        53
+                    </td>
+                </tr>
+
+            <!-- Add more transaction records here -->
+        </table>
+    </div>
+    <!-- Your Transactions Table End -->
+
+    <!-- page break -->
+    <!-- <div style="page-break-after: always; visibility: hidden;"></div> -->
+    <!-- Dummy element to prevent overlap -->
+    <!-- <div style="padding-top: 145px;"></div> -->
+
+    <!-- about card -->
+    <div style="margin: 25px;">
+        <h1 style="font-size: 18px; font-weight: 700; margin-bottom: 30px; margin-top: 40px;">All about your Saven
+            credit card</h1>
+        <div style="display: flex; justify-content: space-between;">
+            <div style="width: 50%; margin-right: 25px; ">
+                <h4 style="color: grey; font-size: 16px; font-weight: 500; margin-top: 15px;">Let's talk fees</h4>
+                <div
+                    style="background-color: #fdebeb; padding: 20px; border-radius: 10px; display: flex; align-items: center; margin-bottom: 20px;">     
+                    <div
+                        style="font-size: 20px; color: white; background-color: #df8888; width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; padding: 8px; font-weight: bold;">
+                        0
+                        <!-- <i class="fa-regular fa-credit-card"></i> -->
+                        <!-- <span style="font-size: 20px; color: white;">H</span> -->
+                    </div>
+                    <div style="margin-left: 20px;">
+                        <h2 style="margin: 0; font-size: 18px;">Zero joining fees</h2>
+                        <p style="margin: 5px 0; font-size: 14px;">Pay nothing when you join</p>
+                    </div>
+                </div>
+                <div
+                    style="background-color: #fdebeb; padding: 20px; border-radius: 10px; display: flex; align-items: center; margin-bottom: 20px;">     
+                    <div
+                        style="font-weight: bold; font-size: 20px; color: white; background-color: #df8888; width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; padding: 8px;">
+                        0
+                        <!-- <span style="font-size: 20px; color: white;">H</span> -->
+                    </div>
+                    <div style="margin-left: 20px;">
+                        <h2 style="margin: 0; font-size: 18px;">Zero annual fees</h2>
+                        <p style="margin: 5px 0; font-size: 14px;">Pay nothing when you renew</p>
+                    </div>
+                </div>
+                <div
+                    style="background-color: #fdebeb; padding: 20px; border-radius: 10px; display: flex; align-items: center; margin-bottom: 20px;">     
+                    <div
+                        style="font-weight: bold; font-size: 20px; color: white; background-color: #df8888; width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; padding: 8px;">
+                        0
+                        <!-- <span style="font-size: 20px; color: white;">H</span> -->
+                    </div>
+                    <div style="margin-left: 20px;">
+                        <h2 style="margin: 0; font-size: 18px;">Zero forex markup</h2>
+                        <p style="margin: 5px 0; font-size: 14px;">Swipe anywhere in the world, for no extra fee</p>
+                    </div>
+                </div>
+
+                <h4 style="color: grey; font-size: 16px; font-weight: 500;">Need Cash? No Problem!</h4>
+                <div
+                    style="background-color: #f4ffe2; padding: 20px; border-radius: 10px; display: flex; align-items: center; margin-bottom: 20px;">     
+                    <div
+                        style="font-weight: bold; font-size: 20px; color: white; background-color: #a3be76; width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; padding: 8px;">
+                        %
+                        <!-- <span style="font-size: 20px; color: white;">H</span> -->
+                    </div>
+                    <div style="margin-left: 20px;">
+                        <h2 style="margin: 0; font-size: 18px;">SOS! I need to withdraw cash</h2>
+                        <p style="margin: 5px 0; font-size: 14px;">Go ahead! Withdraw up to 10% of your approved credit
+                            limit</p>
+                    </div>
+                </div>
+                <div
+                    style="background-color: #f4ffe2; padding: 20px; border-radius: 10px; display: flex; align-items: center; margin-bottom: 20px;">     
+                    <div
+                        style="font-weight: bold; font-size: 20px; color: white; background-color: #a3be76; width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; padding: 8px;">
+                        %
+                        <!-- <span style="font-size: 20px; color: white;">H</span> -->
+                    </div>
+                    <div style="margin-left: 20px;">
+                        <h2 style="margin: 0; font-size: 18px;">Cash withdrawal fee</h2>
+                        <p style="margin: 5px 0; font-size: 14px;">25% of amount withdrawn or ₹500, whichever is higher
+                        </p>
+                    </div>
+                </div>
+                <div
+                    style="background-color: #f4ffe2; padding: 20px; border-radius: 10px; display: flex; align-items: center; margin-bottom: 20px;">     
+                    <div
+                        style="font-weight: bold; font-size: 20px; color: white; background-color: #a3be76; width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; padding: 8px;">
+                        %
+                        <!-- <span style="font-size: 20px; color: white;">H</span> -->
+                    </div>
+                    <div style="margin-left: 20px;">
+                        <h2 style="margin: 0; font-size: 18px;">Cash withdrawal interest</h2>
+                        <p style="margin: 5px 0; font-size: 14px;">3.49% per month from the date of withdrawal</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div style="width: 50%; margin-right: 10px; ">
+                <h4 style="color: grey; font-size: 16px; font-weight: 500; margin-top: 15px;">Let's talk payments</h4>
+                <div
+                    style="background-color: #f2f7ff; padding: 20px; border-radius: 10px; display: flex; align-items: center; margin-bottom: 27px;">     
+                    <div
+                        style="font-weight: bold; font-size: 20px; color: white; background-color: #91a9d4; width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; padding: 8px;">
+                        G
+                        <!-- <span style="font-size: 20px; color: white;">H</span> -->
+                    </div>
+                    <div style="margin-left: 20px;">
+                        <h2 style="margin: 0; font-size: 18px;">Get up to 48 days of no interest</h2>
+                        <p style="margin: 5px 0; font-size: 14px;">With a billing cycle of 30 days & payment period of
+                            18 days</p>
+                    </div>
+                </div>
+                <div
+                    style="background-color: #f2f7ff; padding: 20px; border-radius: 10px; display: flex; align-items: center; margin-bottom: 27px;">     
+                    <div
+                        style="font-weight: bold; font-size: 20px; color: white; background-color: #91a9d4; width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; padding: 8px;">
+                        C
+                        <!-- <span style="font-size: 20px; color: white;">H</span> -->
+                    </div>
+                    <div style="margin-left: 20px;">
+                        <h2 style="margin: 0; font-size: 18px;">Convert to EMIs</h2>
+                        <p style="margin: 5px 0; font-size: 14px;">16% interest rate applicable for 3, 6, 9, 12 month
+                            tenures</p>
+                    </div>
+                </div>
+                <div
+                    style="background-color: #f2f7ff; padding: 20px; border-radius: 10px; display: flex; align-items: center; margin-bottom: 27px;">     
+                    <div
+                        style="font-weight: bold; font-size: 20px; color: white; background-color: #91a9d4; width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; padding: 8px;">
+                        P
+                        <!-- <span style="font-size: 20px; color: white;">H</span> -->
+                    </div>
+                    <div style="margin-left: 20px;">
+                        <h2 style="margin: 0; font-size: 18px;">Pay at your pace at 3.49%</h2>
+                        <p style="margin: 5px 0; font-size: 14px;">Can't pay the due within 45 days? Pay slowly, at an
+                            interest of 3.49% per month
+                        </p>
+                    </div>
+                </div>
+
+                <!-- <h4 style="color: grey; font-size: 16px; font-weight: 500;">Let's talk fees</h4> -->
+                <div
+                    style="background-color: #f2f7ff; padding: 20px; border-radius: 10px; display: flex; align-items: center; margin-bottom: 27px;">     
+                    <div
+                        style="font-weight: bold; font-size: 20px; color: white; background-color: #91a9d4; width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; padding: 8px;">
+                        M
+                        <!-- <span style="font-size: 20px; color: white;">H</span> -->
+                    </div>
+                    <div style="margin-left: 20px;">
+                        <h2 style="margin: 0; font-size: 18px;">Minimum amount due
+                        </h2>
+                        <p style="margin: 5px 0; font-size: 14px;">5% of your outstanding amount + other charges
+                            that are overdue</p>
+                    </div>
+                </div>
+                <div
+                    style="background-color: #f2f7ff; padding: 20px; border-radius: 10px; display: flex; align-items: center; margin-bottom: 27px;">     
+                    <div
+                        style="font-weight: bold; font-size: 20px; color: white; background-color: #91a9d4; width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; padding: 8px;">
+                        L
+                        <!-- <span style="font-size: 20px; color: white;">H</span> -->
+                    </div>
+                    <div style="margin-left: 20px;">
+                        <h2 style="margin: 0; font-size: 18px;">Late payment charges</h2>
+                        <p style="margin: 5px 0; font-size: 14px;">Late payment charges depend on balance due.
+                            Check app for detailed breakdown</p>
+                    </div>
+                </div>
+                <div
+                    style="background-color: #fff9d6; padding: 20px; border-radius: 10px; display: flex; align-items: center; margin-bottom: 27px;">     
+                    <div
+                        style="font-weight: bold; font-size: 20px; color: white; background-color: #d8c975; width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; padding: 8px;">
+                        C
+                        <!-- <span style="font-size: 20px; color: white;">H</span> -->
+                    </div>
+                    <div style="margin-left: 20px;">
+                        <h2 style="margin: 0; font-size: 18px;">24/7 Customer support</h2>
+                        <p style="margin: 5px 0; font-size: 14px;">Hassle-free service when you reach us. Contact us
+                            through the app</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- about card end -->
+
+    <!-- page break -->
+    <!-- <div style="page-break-after: always; visibility: hidden;"></div> -->
+    <!-- Dummy element to prevent overlap -->
+    <!-- <div style="padding-top: 145px;"></div> -->
+
+    <!-- most important Information start -->
+
+    <div style="margin: 25px;">
+        <h1 style="font-size: 18px; margin-bottom: 40px; text-align: center; font-weight: 500;">Most important
+            Information</h1>
+
+        <div>
+            <h4 style="font-size: 16px; font-weight: 700; ">lllustration of finance/Interest charges</h4>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate tempore illum vel tenetur error
+                quae. Accusamus ipsum, nulla eveniet magnam atque omnis vitae tenetur odio voluptatum dolorum, vel, est
+                earum.
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro reiciendis eaque voluptatibus illum
+                deleniti corrupti nihil exercitationem, itaque eligendi, necessitatibus pariatur, corporis quisquam
+                debitis sed omnis sunt nobis facere iusto.
+            </p>
+        </div>
+        <div style="margin-right: 30px; padding-top: 20px;">
+            <table
+                style="width: 100%; background-color: #f5f5f5; border-collapse: collapse; font-size: 14px; color: grey;">
+                <tr style="margin-bottom: 5px;">
+                    <td
+                        style="font-weight: 700; width: 80%; padding: 10px; background-color: #fff; border-right: 8px solid #ffffff; border-bottom: 2px solid #ffffff; padding-left: 20px;">
+                        Particular</td>
+                    <td style="font-weight: 700; padding: 10px; background-color: #fff; padding-left: 20px;">Amount
+                        (Rs.)</td>
+                </tr>
+                <tr style="margin-bottom: 5px; border-bottom: 2px solid #ffffff;">
+                    <td
+                        style=" padding: 6px; background-color: rgb(243, 239, 239); border-right: 8px solid #ffffff; padding-left: 20px;">
+                        Purchase on {{Date}}</td>
+                    <td
+                        style="padding: 6px; background-color: rgb(243, 239, 239); border-right: 8px solid #ffffff; padding-left: 20px;">
+                        {{Amount}}</td>
+                </tr>
+                <tr style="margin-bottom: 5px; border-bottom: 2px solid #ffffff;">
+                    <td
+                        style="padding: 6px; background-color: rgb(243, 239, 239); border-right: 8px solid #ffffff; border-bottom: 2px solid #ffffff; padding-left: 20px;">
+                        Total amount due on statement dated {{Date}}</td>
+                    <td
+                        style="padding: 6px; background-color: rgb(243, 239, 239); border-right: 8px solid #ffffff; padding-left: 20px;">
+                        {{Amount}}</td>
+                </tr>
+                <tr style="margin-bottom: 5px; border-bottom: 2px solid #ffffff;">
+                    <td
+                        style="padding: 6px; background-color: rgb(243, 239, 239); border-right: 8px solid #ffffff; border-bottom: 2px solid #ffffff; padding-left: 20px;">
+                        Minimum amount due on statement dated {{Date}} </td>
+                    <td
+                        style="padding: 6px; background-color: rgb(243, 239, 239); border-right: 8px solid #ffffff; padding-left: 20px;">
+                        {{Amount}}</td>
+                </tr>
+                <tr style="margin-bottom: 5px; border-bottom: 2px solid #ffffff;">
+                    <td
+                        style="padding: 6px; background-color: rgb(243, 239, 239); border-right: 8px solid #ffffff; border-bottom: 2px solid #ffffff; padding-left: 20px;">
+                        Payment due date - {{Date}}</td>
+                    <td
+                        style="padding: 6px; background-color: rgb(243, 239, 239); border-right: 8px solid #ffffff; padding-left: 20px;">
+                        {{Amount}}</td>
+                </tr>
+                <tr style="margin-bottom: 5px; border-bottom: 2px solid #ffffff;">
+                    <td
+                        style="padding: 6px; background-color: rgb(243, 239, 239); border-right: 8px solid #ffffff; border-bottom: 2px solid #ffffff; padding-left: 20px;">
+                        Purchase on {{Date}}</td>
+                    <td
+                        style="padding: 6px; background-color: rgb(243, 239, 239); border-right: 8px solid #ffffff; padding-left: 20px;">
+                        {{Amount}}</td>
+                </tr>
+                <tr style="margin-bottom: 5px; border-bottom: 2px solid #ffffff;">
+                    <td
+                        style="padding: 6px; background-color: rgb(243, 239, 239); border-right: 8px solid #ffffff; border-bottom: 2px solid #ffffff; padding-left: 20px;">
+                        Payment received on {{Date}}</td>
+                    <td
+                        style="padding: 6px; background-color: rgb(243, 239, 239); border-right: 8px solid #ffffff; padding-left: 20px;">
+                        {{Amount}}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="padding: 10px; background-color: #ffffff; text-align: left;">Interest
+                        calculation at {{interest}} (Total interest charged in the statement dated {{Date}})</td>
+                </tr>
+                <tr style="margin-bottom: 5px; border-bottom: 2px solid #ffffff;">
+                    <td
+                        style="padding: 6px; background-color: rgb(243, 239, 239); border-right: 8px solid #ffffff; border-bottom: 2px solid #ffffff; padding-left: 20px;">
+                        a) Interest on {{amount}} for {{days}} days (from {{date duration}})</td>
+                    <td
+                        style="padding: 6px; background-color: rgb(243, 239, 239); border-right: 8px solid #ffffff; padding-left: 20px;">
+                        {{Amount}}</td>
+                </tr>
+                <tr style="margin-bottom: 5px; border-bottom: 2px solid #ffffff;">
+                    <td
+                        style="padding: 6px; background-color: rgb(243, 239, 239); border-right: 8px solid #ffffff; border-bottom: 2px solid #ffffff; padding-left: 20px;">
+                        b) Interest on {{amount}} for {{days}} days (from {{date duration}})</td>
+                    <td
+                        style="padding: 6px; background-color: rgb(243, 239, 239); border-right: 8px solid #ffffff; padding-left: 20px;">
+                        {{Amount}}</td>
+                </tr>
+                <tr style="margin-bottom: 5px; border-bottom: 2px solid #ffffff;">
+                    <td
+                        style="padding: 6px; background-color: rgb(243, 239, 239); border-right: 8px solid #ffffff; border-bottom: 2px solid #ffffff; padding-left: 20px;">
+                        c) Interest on {{amount}} for {{days}} days (from {{date duration}})</td>
+                    <td
+                        style="padding: 6px; background-color: rgb(243, 239, 239); border-right: 8px solid #ffffff; padding-left: 20px;">
+                        {{Amount}}</td>
+                </tr>
+                <tr style="margin-bottom: 5px; border-bottom: 2px solid #ffffff;">
+                    <td
+                        style="padding: 6px; background-color: rgb(243, 239, 239); border-right: 8px solid #ffffff; border-bottom: 2px solid #ffffff; padding-left: 20px;">
+                        d) Late payment fee </td>
+                    <td
+                        style="padding: 6px; background-color: rgb(243, 239, 239); border-right: 8px solid #ffffff; padding-left: 20px;">
+                        {{Amount}}</td>
+                </tr>
+                <tr style="margin-bottom: 5px; border-bottom: 2px solid #ffffff;">
+                    <td
+                        style="padding: 6px; background-color: rgb(243, 239, 239); border-right: 8px solid #ffffff; border-bottom: 2px solid #ffffff; padding-left: 20px;">
+                        e) GST will be applicable on interest charges and late payment fees</td>
+                    <td
+                        style="padding: 6px; background-color: rgb(243, 239, 239); border-right: 8px solid #ffffff; padding-left: 20px;">
+                        {{Amount}}</td>
+                </tr>
+                <tr style="margin-bottom: 5px; border-bottom: 2px solid #ffffff;">
+                    <td
+                        style="padding: 6px; background-color: rgb(243, 239, 239); border-right: 8px solid #ffffff; border-bottom: 2px solid #ffffff; padding-left: 20px;">
+                        f) Total charges payable on {{Date}} (a+b+c+d+e)</td>
+                    <td
+                        style="padding: 6px; background-color: rgb(243, 239, 239); border-right: 8px solid #ffffff; padding-left: 20px;">
+                        {{Amount}}</td>
+                </tr>
+                <tr style="margin-bottom: 5px; border-bottom: 2px solid #ffffff;">
+                    <td
+                        style="padding: 6px; background-color: rgb(243, 239, 239); border-right: 8px solid #ffffff; border-bottom: 2px solid #ffffff; padding-left: 20px; padding-right: 200px;">
+                        Total Amount Payable on due date {{Date}} (Principal amount of {{Amount}}+
+                        Total charges payable (f))</td>
+                    <td
+                        style="padding: 6px; background-color: rgb(243, 239, 239); border-right: 8px solid #ffffff; padding-left: 20px;">
+                        {{Amount}}</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- page break -->
+
+        <!-- <div style="page-break-after: always; visibility: hidden;"></div> -->
+        <!-- Dummy element to prevent overlap -->
+        <!-- <div style="padding-top: 145px;"></div> -->
+
+        <h4 style="font-size: 16px; font-weight: 700; padding-top: 30px;">lllustration of finance/Interest charges</h4>
+        <ul style="list-style-type: disc; font-size: 16px; margin-right: 30px;">
+            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate atque, et cumque fugit quae
+                voluptate omnis nisi consequatur nostrum ad aut, provident porro dolor. Aliquid libero tempora dolore
+                sequi impedit.</li>
+            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis placeat alias rem obcaecati
+                possimus eligendi ex quaerat doloribus fuga nostrum explicabo iure porro quod, adipisci, unde, veritatis
+                et facere labore.</li>
+            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi ad sit explicabo, amet totam voluptates
+                fugiat ut adipisci sapiente iure esse perferendis earum eius voluptatibus illo repudiandae, modi sunt
+                unde.</li>
+            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit adipisci, eum, facilis eius est omnis
+                dolore laboriosam in porro labore illo enim delectus veritatis velit doloribus ratione eos. Alias,
+                tenetur! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Doloremque minus culpa nisi
+                consequatur harum, perferendis unde nesciunt impedit doloribus laboriosam neque itaque exercitationem,
+                molestias beatae. Facere quas fugiat illum tenetur.</li>
+
+
+            <!-- Add more list items as needed -->
+        </ul>
+
+    </div>
+    <!-- most important Information end -->
+
+
+    <div style="margin: 25px;">
+
+        <h4 style="font-size: 16px; font-weight: 700; padding-top: 30px;">Important information on disputed
+            transactions:</h4>
+        <ul style="list-style-type: disc; font-size: 16px; margin-right: 30px;">
+            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate atque, et cumque fugit quae
+                voluptate omnis nisi consequatur nostrum ad aut, provident porro dolor. Aliquid libero tempora dolore
+                sequi impedit.</li>
+            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis placeat alias rem obcaecati
+                possimus eligendi ex quaerat doloribus fuga nostrum explicabo iure porro quod, adipisci, unde, veritatis
+                et facere labore.</li>
+            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi ad sit explicabo, amet totam voluptates
+                fugiat ut adipisci sapiente iure esse perferendis earum eius voluptatibus illo repudiandae, modi sunt
+                unde.</li>
+            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit adipisci, eum, facilis eius est omnis
+                dolore laboriosam in porro labore illo enim delectus veritatis velit doloribus ratione eos. Alias,
+                tenetur! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Doloremque minus culpa nisi
+                consequatur harum, perferendis unde nesciunt impedit doloribus laboriosam neque itaque exercitationem,
+                molestias beatae. Facere quas fugiat illum tenetur.</li>
+
+
+            <!-- Add more list items as needed -->
+        </ul>
+
+    </div>
+
+    <div style="margin: 25px; margin-top: 50px;">
+
+        <div style="background-color: #fcfcfc; border: 1px solid #c5c5c5; padding: 25px; border-radius: 10px;">
+
+            <!-- <h2>Contact Customer Care</h2> -->
+            <p>If you have any questions or concerns, please feel free to reach out to our customer care team:</p>
+
+            <ul>
+                <li>{{Address}}</li>
+                <li>{{Phone}}</li>
+                <li>{{Email}}</li>
+            </ul>
+
+            <p>Our dedicated customer care representatives are available to assist you during our business hours, which
+                are:</p>
+
+            <p>Monday - Friday: 9:00 AM to 5:00 PM (GMT)</p>
+            <p>Saturday: 10:00 AM to 2:00 PM (GMT)</p>
+            <p>Sunday: Closed</p>
+
+            <p>We strive to respond to all inquiries within 24 hours.</p>
+
+        </div>
+
+    </div>
+
+
+
+
+</body>
+
+</html>

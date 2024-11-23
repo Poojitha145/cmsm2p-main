@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "ESNext",
+    "lib": [
+      "ES6",
+      "DOM",
+      "ESNext"
+    ],
+    "jsx": "react",
+    "declaration": true,
+    "allowSyntheticDefaultImports": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "esModuleInterop": true,
+    "moduleResolution": "Bundler",
+    "allowJs": true,    
+    "types": [
+      "jest",
+      "node"
+    ]
+  },
+  "exclude": [
+    "./node_modules",
+    "./jest.config.js",
+    "./src/cms-client.test.ts",
+    "./dist"
+  ]
+}
